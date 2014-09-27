@@ -14,3 +14,5 @@ sed -iold '1i\'$'\n''text to prepend'$'\n' file.txt
 #                  Close string   The  special bash   Reopen string to
 #                     to sed       newline char to      send to sed
 #                                    send to sed
+
+sed 's/s/\'$'\n''xxx/2;h;s/s/xxx/g;H;g;s/\n.*\n//' my.txt
