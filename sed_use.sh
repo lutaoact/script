@@ -17,3 +17,4 @@ sed -iold '1i\'$'\n''text to prepend'$'\n' file.txt
 
 sed 's/s/\'$'\n''xxx/2;h;s/s/xxx/g;H;g;s/\n.*\n//' my.txt
 sed -i '' "1i\\"$'\n'"This is my monkey, my monkey's name is wukong"$'\n' my.txt
+sed "$ a \\"$'\n'"This is my monkey, my monkey's name is wukong"$'\n' my.txt
