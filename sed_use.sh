@@ -21,3 +21,4 @@ sed -i '' "$ a \\"$'\n'"This is my monkey, my monkey's name is wukong"$'\n' my.t
 sed -i '' "/fish/i\\"$'\n'"This is my monkey, my monkey's name is wukong"$'\n' my.txt
 sed -i '' "2c \\"$'\n'"This is my monkey, my monkey's name is wukong"$'\n' my.txt
 sed -i '' -n '/cat/,/fish/p' my.txt
+sed '1!G;h;$!d' t.txt #反转一个文件的行

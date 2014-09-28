@@ -1,0 +1,13 @@
+/*
+ *  AMDefines.h
+ *  AMapiPhone
+ *
+ *  Created by Martin Yin on 8/7/11.
+ *  Copyright 2011 Autonavi. All rights reserved.
+ *
+ */
+
+#pragma AAAA 公共部分
+
+//包含状态栏导航栏高度高度
+#define  MAIN_BOUNDS      [[UIScreen mainScreen] bounds]
