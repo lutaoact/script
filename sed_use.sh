@@ -22,3 +22,4 @@ sed -i '' "/fish/i\\"$'\n'"This is my monkey, my monkey's name is wukong"$'\n' m
 sed -i '' "2c \\"$'\n'"This is my monkey, my monkey's name is wukong"$'\n' my.txt
 sed -i '' -n '/cat/,/fish/p' my.txt
 sed '1!G;h;$!d' t.txt #反转一个文件的行
+sed -i '' 'N; s/\n  /, /' pets.txt #将两行合并，并用逗号分开
