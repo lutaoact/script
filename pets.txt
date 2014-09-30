@@ -1,8 +1,8 @@
-This is my cat
+This is your cat
   my cat's name is betty
 This is your dog
   your dog's name is frank
 This is your fish
   your fish's name is george
-This is my goat
+This is your goat
   my goat's name is adam
