@@ -28,3 +28,5 @@ sed '3,6{/This/d;}' pets.txt #BSD sed, must add semi-colon
 sed -f 3_6 pets.txt #use file
 sed -i '' '3,6 {/This/{/fish/d;};}' pets.txt
 sed -i '' '1,${/This/d;s/^ *//g;}' pets.txt
+sed -i '' -E '/dog/{;N;N;N;s/(^|\n)/&# /g;}' pets.txt #BSD sed
+sed -i '' '/dog/,+3s/^/# /g' pets.txt #GNU sed
