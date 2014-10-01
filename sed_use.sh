@@ -32,3 +32,4 @@ sed -i '' -E '/dog/{N;N;N;s/(^|\n)/&# /g;}' pets.txt #BSD sed
 sed -i '' '/dog/,+3s/^/# /g' pets.txt #GNU sed
 sed = pets.txt | sed 'N;s/\n/'$'\t''/' > line_num_pets.txt
 sed = my.txt | sed 'N; s/^/    /; s/\(.\{5,\}\)\n/\1 /' #对文件中的所有行编号（行号在左，文字左端对齐）。
+#sed = my.txt | sed -E 'N; s/(.*)\n/    \1 /' #貌似，我也可以这么写
