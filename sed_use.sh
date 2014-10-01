@@ -30,3 +30,4 @@ sed -i '' '3,6 {/This/{/fish/d;};}' pets.txt
 sed -i '' '1,${/This/d;s/^ *//g;}' pets.txt
 sed -i '' -E '/dog/{N;N;N;s/(^|\n)/&# /g;}' pets.txt #BSD sed
 sed -i '' '/dog/,+3s/^/# /g' pets.txt #GNU sed
+sed = pets.txt | sed 'N;s/\n/'$'\t''/' > line_num_pets.txt
