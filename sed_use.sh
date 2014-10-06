@@ -34,3 +34,4 @@ sed = pets.txt | sed 'N;s/\n/'$'\t''/' > line_num_pets.txt
 sed = my.txt | sed 'N; s/^/    /; s/\(.\{5,\}\)\n/\1 /' #对文件中的所有行编号（行号在左，文字左端对齐）。
 #sed = my.txt | sed -E 'N; s/(.*)\n/    \1 /' #貌似，我也可以这么写
 sed '/'"$name"'/,/};/d' back_slash.txt
+#$'\t' 在shell中输入tab键。或者先按Ctrl-V，然后再按Tab键
