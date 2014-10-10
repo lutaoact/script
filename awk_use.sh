@@ -6,6 +6,7 @@ awk 'BEGIN{FS=":"} {print $1,$3,$6}' semi_colon_FS #awk -F: '{print $1,$3,$6}' s
 awk '/WAIT/' netstat.txt
 awk 'NR != 1 {print > $6}' netstat.txt
 awk 'NR!=1{a[$6]++;} END {for (i in a) print i ", " a[i];}' netstat.txt
+cat shuf.txt | awk 'BEGIN{srand()} {print rand() "\t" $0}' | sort -n | cut -f2- #shuffle一个文件
 
 awk内建变量
 $0  当前记录（这个变量中存放着整个行的内容）
