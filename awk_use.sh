@@ -8,6 +8,9 @@ awk 'NR != 1 {print > $6}' netstat.txt
 awk 'NR!=1{a[$6]++;} END {for (i in a) print i ", " a[i];}' netstat.txt
 cat shuf.txt | awk 'BEGIN{srand()} {print rand() "\t" $0}' | sort -n | cut -f2- #shuffle一个文件
 
+awk 'BEGIN{IFS="  "}{if ($1 == "payment") {print;}}' /data/log/maui.data.log #抽出所有第一个字段是payment的行
+awk 'BEGIN{IFS="  "}$1 == "payment"' /data/log/maui.data.log #或者ACTION部分不要用花括号圈引，则自动打印符合条件的相应行
+
 awk内建变量
 $0  当前记录（这个变量中存放着整个行的内容）
 $1~$n 当前记录的第n个字段，字段间由FS分隔
