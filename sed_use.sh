@@ -36,3 +36,4 @@ sed = my.txt | sed 'N; s/^/    /; s/\(.\{5,\}\)\n/\1 /' #对文件中的所有�
 sed '/'"$name"'/,/};/d' back_slash.txt
 #$'\t' 在shell中输入tab键。或者先按Ctrl-V，然后再按Tab键
 sed '/^p/{N;N;N;N;s/\n//g;}' sed_five_line.txt
+sed '/^p/{N;N;N;N;s/\n/ /g;}' sed_five_line.txt
