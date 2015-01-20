@@ -11,6 +11,8 @@ cat shuf.txt | awk 'BEGIN{srand()} {print rand() "\t" $0}' | sort -n | cut -f2- 
 awk 'BEGIN{IFS="  "}{if ($1 == "payment") {print;}}' /data/log/maui.data.log #抽出所有第一个字段是payment的行
 awk 'BEGIN{IFS="  "}$1 == "payment"' /data/log/maui.data.log #或者ACTION部分不要用花括号圈引，则自动打印符合条件的相应行
 
+awk '$2 == "beat"{print $3}' logfile | sort | uniq -c #取出第二列等于beat的行的第3列，然后统计出现的数量
+
 awk内建变量
 $0  当前记录（这个变量中存放着整个行的内容）
 $1~$n 当前记录的第n个字段，字段间由FS分隔
