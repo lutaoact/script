@@ -1,0 +1,5 @@
+s/--- lesson/Lesson/
+/--- /d
+s/\^/\r\n/
+/--- end/d
+#这是给GNU sed用的，也就是gsed

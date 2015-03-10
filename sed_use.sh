@@ -37,3 +37,5 @@ sed '/'"$name"'/,/};/d' back_slash.txt
 #$'\t' 在shell中输入tab键。或者先按Ctrl-V，然后再按Tab键
 sed '/^p/{N;N;N;N;s/\n//g;}' sed_five_line.txt
 sed '/^p/{N;N;N;N;s/\n/ /g;}' sed_five_line.txt
+gsed -f gsed_convert_for_wind  -i *.txt #利用脚本处理文本
+gsed '1~2G' -i *.txt #奇数行后加空行
