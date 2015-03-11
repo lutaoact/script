@@ -74,7 +74,7 @@ sed '1G' tmpfile 在第一行后面添加空行，想在第几行，命令中的
   sed 'N;N;/^$/d;G' tmpfile
   每三行前面增加一个空行
   sed 'N;N;/^$/d;{x;p;x;}' tmpfile
-五、以x为开头或以x为结尾的行前后添加空行
+五、以xi为开头或以xi为结尾的行前后添加空行
 1.以xi为开头的行后面添加空行
  sed '/^xi/G;' tmpfile
  以xi为结尾的行前面添加空行
@@ -83,4 +83,3 @@ sed '1G' tmpfile 在第一行后面添加空行，想在第几行，命令中的
  sed '/xi$/G;' tmpfile
  以xi为结尾的行后面添加空行
  sed '/xi$/{x;p;x;}' tmpfile
-如果有错误的地方，麻烦各位帮忙指正，谢谢！
