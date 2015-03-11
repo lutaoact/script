@@ -59,17 +59,19 @@ gsed '1~2G' -i *.txt #奇数行后加空行
 sed '/^$/d;G' tmpfile
 三、在匹配行前后添加空行
 sed '/shui/G' tmpfile  如果一行里面有shui这个单词，那么在他后面会添加一个空行
-sed '/shui/{x;p;x;G}' tmpfile 如果一行里面有shui这个单词，那么在他前后各添加一个空行
+sed '/shui/{x;p;x;G;}' tmpfile 如果一行里面有shui这个单词，那么在他前后各添加一个空行
 sed '/shui/{x;p;x;}' tmpfile 如果一行里面有shui这个单词，那么在他前面添加一个空行
 sed '1{x;p;x;}' tmpfile 在第一行前面添加空行，想在第几行，命令中的1就改成几
+# gsed '1i\\' tmpfile #gnu sed可以这样写
 sed '1G' tmpfile 在第一行后面添加空行，想在第几行，命令中的1就改成几
+# gsed '1a\\' tmpfile #gnu sed可以这样写
 四、每几行后面添加一个空行
 1.每两行后面增加一个空行
-  sed 'N;/^$/d;G' file.txt
+  sed 'N;/^$/d;G' tmpfile
  每两行前面添加一个空行
   sed 'N;/^$/d;{x;p;x;}' tmpfile
 2.每三行后面增加一个空行
-  sed 'N;N;/^$/d;G' file.txt
+  sed 'N;N;/^$/d;G' tmpfile
   每三行前面增加一个空行
   sed 'N;N;/^$/d;{x;p;x;}' tmpfile
 五、以x为开头或以x为结尾的行前后添加空行
