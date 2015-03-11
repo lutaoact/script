@@ -39,3 +39,46 @@ sed '/^p/{N;N;N;N;s/\n//g;}' sed_five_line.txt
 sed '/^p/{N;N;N;N;s/\n/ /g;}' sed_five_line.txt
 gsed -f gsed_convert_for_wind  -i *.txt #利用脚本处理文本
 gsed '1~2G' -i *.txt #奇数行后加空行
+
+#sed 之添加空行
+一、每行前后添加空行
+1.每行后面添加一行空行：
+  sed 'G' tmpfile
+ 每行前面添加一行空行：
+  sed '{x;p;x;}' tmpfile
+2.每行后面添加两行空行：
+  sed 'G;G' tmpfile
+ 每行前面添加两行空行：
+  sed '{x;p;p;x;}' tmpfile
+3.每行后面添加三行空行：
+  sed 'G;G;G' tmpfile
+  每行前面添加三行空行：
+  sed '{x;p;p;p;x;}' tmpfile
+以此类推。
+二、如果行后有空行，则删除，然后每行后面添加空行
+sed '/^$/d;G' tmpfile
+三、在匹配行前后添加空行
+sed '/shui/G' tmpfile  如果一行里面有shui这个单词，那么在他后面会添加一个空行
+sed '/shui/{x;p;x;G}' tmpfile 如果一行里面有shui这个单词，那么在他前后各添加一个空行
+sed '/shui/{x;p;x;}' tmpfile 如果一行里面有shui这个单词，那么在他前面添加一个空行
+sed '1{x;p;x;}' tmpfile 在第一行前面添加空行，想在第几行，命令中的1就改成几
+sed '1G' tmpfile 在第一行后面添加空行，想在第几行，命令中的1就改成几
+四、每几行后面添加一个空行
+1.每两行后面增加一个空行
+  sed 'N;/^$/d;G' file.txt
+ 每两行前面添加一个空行
+  sed 'N;/^$/d;{x;p;x;}' tmpfile
+2.每三行后面增加一个空行
+  sed 'N;N;/^$/d;G' file.txt
+  每三行前面增加一个空行
+  sed 'N;N;/^$/d;{x;p;x;}' tmpfile
+五、以x为开头或以x为结尾的行前后添加空行
+1.以xi为开头的行后面添加空行
+ sed '/^xi/G;' tmpfile
+ 以xi为结尾的行前面添加空行
+ sed '/^xi/{x;p;x;}' tmpfile
+2.以xi为结尾的行后面添加空行
+ sed '/xi$/G;' tmpfile
+ 以xi为结尾的行后面添加空行
+ sed '/xi$/{x;p;x;}' tmpfile
+如果有错误的地方，麻烦各位帮忙指正，谢谢！
