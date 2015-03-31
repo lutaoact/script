@@ -40,6 +40,9 @@ sed '/^p/{N;N;N;N;s/\n/ /g;}' sed_five_line.txt
 gsed -f gsed_convert_for_wind  -i *.txt #利用脚本处理文本
 gsed '1~2G' -i *.txt #奇数行后加空行
 
+#删除只有空白的行，删除行首的大写字母、空格和冒号，将大写字母和冒号结合的部分替换成新行，删除行首空白
+gsed -i -e '/^\s*$/d;s/^[A-Z ]\+:\s*//;s/\s\+[A-Z]\+:/\n/;s/^\s\+//g' local_data/others/Book*.txt
+
 #sed 之添加空行
 一、每行前后添加空行
 1.每行后面添加一行空行：
