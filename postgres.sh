@@ -18,3 +18,8 @@ copy weather to '/Users/lutao/coffee_js/weather.txt';
 #Postgres表名和列名区分大小写，会自动将传入的大写转为小写，除非将名字用引号圈引。
 # All identifiers (including column names) that are not double-quoted are folded to lower case in PostgreSQL. So, PostgreSQL column names are case-sensitive. Values are enclosed in single quotes.
 # SELECT * FROM persons WHERE "first_Name" = 'xyz'; #例子
+
+#postgres中"字段名"用双引号圈引，'值'用单引号圈引
+
+select _id::"varchar" from trade_records;
+SELECT "_id" FROM "trade_records" WHERE "_id"::"varchar" LIKE '%9a7a%'; #cast类型 _id本来为uuid，cast为varchar型的
