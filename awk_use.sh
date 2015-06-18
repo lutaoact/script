@@ -12,6 +12,7 @@ awk 'BEGIN{IFS="  "}{if ($1 == "payment") {print;}}' /data/log/maui.data.log #�
 awk 'BEGIN{IFS="  "}$1 == "payment"' /data/log/maui.data.log #或者ACTION部分不要用花括号圈引，则自动打印符合条件的相应行
 
 awk '$2 == "beat"{print $3}' logfile | sort | uniq -c #取出第二列等于beat的行的第3列，然后统计出现的数量
+awk '{print $4}' /tmp/ping.txt | awk 'BEGIN{FS="."}{print $4}' | sed 's/://' | sort -n | uniq #根据ping广播地址的输出，来取出ip
 
 awk内建变量
 $0  当前记录（这个变量中存放着整个行的内容）
