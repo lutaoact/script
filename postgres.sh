@@ -1,5 +1,7 @@
-createuser --superuser -echo sequelize #创建超级用户
-createdb --username=sequelize development #利用sequelize用户创建数据库development
+#创建超级用户
+createuser --superuser --echo sequelize
+#利用sequelize用户创建数据库development
+createdb --username=sequelize development
 
 \l #mysql> show databases;
 \dt #mysql> show tables;
@@ -23,3 +25,10 @@ copy weather to '/Users/lutao/coffee_js/weather.txt';
 
 select _id::"varchar" from trade_records;
 SELECT "_id" FROM "trade_records" WHERE "_id"::"varchar" LIKE '%9a7a%'; #cast类型 _id本来为uuid，cast为varchar型的
+
+#如果遇到权限问题，修改/usr/local/var/postgres/pg_hba.conf
+#将校验方法改为trust
+host all all 127.0.0.1/32 trust
+
+# 激活hstore
+CREATE EXTENSION hstore;
