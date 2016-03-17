@@ -1,4 +1,11 @@
 #!/bin/bash
+
+## 一些必须要装的软件
+yum -y update && yum -y install tmux
+mv /usr/bin/vi /usr/bin/vi_bak
+ln -s /usr/bin/vim /usr/bin/vi
+
+cd /root
 useradd centos
 echo 'ddxd2015' | passwd --stdin centos
 
@@ -14,22 +21,23 @@ EOF
 
 mkdir -p /data/log
 mkdir -p /data/backup
+mkdir -p /data/redis
 
-# 安装nginx
+## 安装nginx
 cat << 'EOF' > /etc/yum.repos.d/nginx.repo
 [nginx]
 name=nginx repo
 baseurl=http://nginx.org/packages/mainline/centos/7/$basearch/
-gpgcheck=0
+gpgcheck=1
 enabled=1
 EOF
 
 wget http://nginx.org/keys/nginx_signing.key
 rpm --import nginx_signing.key
-yum update && yum install -y nginx
+yum -y update && yum install -y nginx
 
 
-# 安装mongodb
+## 安装mongodb
 cat << 'EOF' > /etc/yum.repos.d/mongodb-org-3.2.repo
 [mongodb-org-3.2]
 name=MongoDB Repository
@@ -38,9 +46,9 @@ gpgcheck=0
 enabled=1
 EOF
 
-yum update && yum install -y mongodb-org
+yum -y update && yum install -y mongodb-org
 
-# 通过源代码安装redis
+## 通过源代码安装redis
 yum install -y tcl #安装tcl依赖
 
 cd /data/backup
@@ -56,6 +64,14 @@ make install
 cd utils
 ./install_server.sh
 
+# redis的相关配置
+#Port           : 6379
+#Config file    : /etc/redis.conf
+#Log file       : /data/log/redis.log
+#Data dir       : /data/redis
+#Executable     : /usr/bin/redis-server
+#Cli Executable : /usr/bin/redis-cli
+
 # 修改服务名 redis_6379 => redis
 cp /etc/init.d/redis_6379 /etc/init.d/redis
 chkconfig --add redis
@@ -66,17 +82,15 @@ service redis restart
 chown -R centos:centos /data
 
 # 切换到centos用户
-su centos
-cd /home/centos
-
-mkdir /home/centos/.ssh
-chmod -R 700 /home/centos/.ssh
-cat << EOF >> /home/centos/.ssh/authorized_keys
+read -r -d '' CENTOS_CMD << 'HERE_DOC'
+mkdir ~/.ssh
+chmod -R 700 ~/.ssh
+cat << EOF >> ~/.ssh/authorized_keys
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4EWdOtLSaqEWpUYmdN0FwsTqyHBItiJLXj10zrHHQVoa7AU1DFQFNnXglEtXFRsxBYc0uPkl5ib77LV1npUkZCg9LTbjoz8LVkIHGOXkjrBLt6QyZZYFZm6RQ8OoiGSwYvsy2zCsK5SRVruqmcDznYawHacI1mF+u6PSwiubM8FgQe+c3sUyOTF8Thp0Wb6nXx/c75JD+NlSjc6kEnh7Fb2EYsYIDog+rhMS+QXnAjt4pEstouKq2Mci0LLdrJbuam9RSfChbowpUWe/JAck5qG5HPrZDm7H8AjoTOeNlLgC/Vg3C5qZdfkCUpjC1G0IXjBQWFbQJfMQSwJVTOYQJ dd-b1@TT-DDX-MacMini.local
 EOF
-chmod 600 /home/centos/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
 
-cat << 'EOF' >> /home/centos/.bashrc
+cat << 'EOF' >> ~/.bashrc
 
 # custom configuration for centos
 if [ "$PS1" ]; then
@@ -92,20 +106,22 @@ alias npm='npm --registry=https://registry.npm.taobao.org'
 alias redis-cli='redis-cli --raw' #让redis-cli正常显示中文
 EOF
 
-. ~/.bashrc
-
 # 利用nvm安装node
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
+. ~/.bashrc #使nvm命令生效
 nvm install 4.4.0
 nvm alias default 4.4.0
 npm install -g pm2
 
+## clone
+cd ~
+git clone https://github.com/lutaoact/some_config.git
+ln -sf ~/some_config/vimrc ~/.vimrc
+ln -sf ~/some_config/gitconfig ~/.gitconfig
 
-echo 'clone node-server...'
 git clone https://lutaoact@bitbucket.org/lutaoact/node-server.git
 cd node-server
 npm --verbose install
+HERE_DOC
 
-git clone https://github.com/lutaoact/some_config.git
-ln -sf /home/centos/some_config/vimrc /home/centos/.vimrc
-ln -sf /home/centos/some_config/gitconfig /home/centos/.gitconfig
+su --login centos -c "$CENTOS_CMD" #以centos用户来执行命令
