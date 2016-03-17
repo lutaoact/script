@@ -2,6 +2,7 @@
 # need root user to run this script
 
 yum -y update
+mkdir ~/tmp
 
 ## 安装shadowsocks
 yum -y install python-setuptools && easy_install pip
@@ -19,9 +20,9 @@ cat << 'EOF' > /etc/shadowsocks.json
   "method":"aes-256-cfb"
 }
 EOF
-sslocal -c /etc/shadowsocks.json -d start --pid-file /tmp/sslocal.pid --log-file /tmp/sslocal.log
+sslocal -c /etc/shadowsocks.json -d start --pid-file ~/tmp/sslocal.pid --log-file ~/tmp/sslocal.log
 echo "rum the following command to check log:"
-echo "tail -f /tmp/sslocal.log"
+echo "tail -f ~/tmp/sslocal.log"
 
 ## 安装polipo
 yum -y install texinfo #安装make all所需要的依赖
@@ -38,12 +39,12 @@ cat << EOF > /etc/polipo/config
 socksProxyType = socks5
 socksParentProxy = localhost:1080
 daemonise = true
-pidFile = /tmp/polipo.pid
-logFile = /tmp/polipo.log
+pidFile = ~/tmp/polipo.pid
+logFile = ~/tmp/polipo.log
 EOF
 polipo #启动 默认加载的配置文件为/etc/polipo/config
 echo "rum the follow command to check log and running status:"
-echo "tail -f /tmp/polipo.log"
+echo "tail -f ~/tmp/polipo.log"
 echo "http_proxy=http://localhost:8123 curl google.com"
 
 ## 设置开机启动
@@ -66,7 +67,8 @@ cat << 'EOF' > /etc/init.d/proxyd
 # Short-Description: start sslocal and polipo
 # Description: start sslocal and polipo when reboot
 ### END INIT INFO
-/usr/bin/sslocal -c /etc/shadowsocks.json -d start --pid-file /tmp/sslocal.pid --log-file /tmp/sslocal.log
+/usr/bin/sslocal -c /etc/shadowsocks.json -d start --pid-file ~/tmp/sslocal.pid --log-file ~/tmp/sslocal.log
 /usr/local/bin/polipo
 EOF
+chmod +x /etc/init.d/proxyd
 chkconfig --add proxyd
