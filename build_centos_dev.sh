@@ -125,7 +125,7 @@ npm install --verbose -g pm2
 ## clone
 cd ~
 git clone https://github.com/lutaoact/some_config.git
-ln -sf ~/some_config/vimrc ~/.vimrc
+ln -sf ~/some_config/vimrc     ~/.vimrc
 ln -sf ~/some_config/gitconfig ~/.gitconfig
 sed -i '/credential\|osxkeychain/d' ~/some_config/gitconfig
 HERE_DOC

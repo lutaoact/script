@@ -72,5 +72,5 @@ cat << 'EOF' > /etc/init.d/proxyd
 /usr/bin/sslocal -c /etc/shadowsocks.json -d start --pid-file /data/tmp/sslocal.pid --log-file /data/tmp/sslocal.log
 /usr/local/bin/polipo
 EOF
-chmod +x /etc/init.d/proxyd
+chmod +x /etc/init.d/proxyd #开机自动启动的脚本，需要赋予执行权限
 chkconfig --add proxyd
