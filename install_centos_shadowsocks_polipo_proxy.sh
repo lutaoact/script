@@ -26,7 +26,7 @@ echo "rum the following command to check log:"
 echo "tail -f /data/tmp/sslocal.log"
 
 ## 安装polipo
-yum -y install texinfo #安装make all所需要的依赖
+yum -y install texinfo #安装make all所需要的依赖makeinfo
 
 cd ~
 wget 'http://www.pps.univ-paris-diderot.fr/~jch/software/files/polipo/polipo-1.1.1.tar.gz'

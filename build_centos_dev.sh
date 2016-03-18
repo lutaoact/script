@@ -4,6 +4,8 @@
 yum -y update
 yum -y install tmux
 
+yum -y install krb5-devel #安装`mongoose`报错，`gssapi.h：No such file or directory`
+
 #修改vi指向vim
 mv /usr/bin/vi /usr/bin/vi_bak
 ln -s /usr/bin/vim /usr/bin/vi
