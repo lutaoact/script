@@ -1,7 +1,10 @@
 #!/bin/bash
 
 ## 一些必须要装的软件
-yum -y update && yum -y install tmux
+yum -y update
+yum -y install tmux
+
+#修改vi指向vim
 mv /usr/bin/vi /usr/bin/vi_bak
 ln -s /usr/bin/vim /usr/bin/vi
 
@@ -76,12 +79,13 @@ cd utils
 cp /etc/init.d/redis_6379 /etc/init.d/redis
 chkconfig --add redis
 chkconfig --del redis_6379
+rm /etc/init.d/redis_6379
 service redis restart
 
 # 将data目录的所有者修改为centos
 chown -R centos:centos /data
 
-# 切换到centos用户
+## CENTOS_CMD中的内容由centos用户来执行
 read -r -d '' CENTOS_CMD << 'HERE_DOC'
 mkdir ~/.ssh
 chmod -R 700 ~/.ssh
@@ -106,22 +110,24 @@ alias npm='npm --registry=https://registry.npm.taobao.org'
 alias redis-cli='redis-cli --raw' #让redis-cli正常显示中文
 EOF
 
+# 检查环境，必须装有sslocal和polipo，否则直接退出
+command -v sslocal >/dev/null 2>&1 || { echo >&2 "require sslocal but it's not installed. Aborting."; exit 1; }
+command -v polipo >/dev/null 2>&1 || { echo >&2 "require polipo but it's not installed. Aborting."; exit 1; }
+
 # 利用nvm安装node
+export http_proxy=http://127.0.0.1:8123 #需要先安装polipo的代理
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
 . ~/.bashrc #使nvm命令生效
 nvm install 4.4.0
 nvm alias default 4.4.0
-npm install -g pm2
+npm install --verbose -g pm2
 
 ## clone
 cd ~
 git clone https://github.com/lutaoact/some_config.git
 ln -sf ~/some_config/vimrc ~/.vimrc
 ln -sf ~/some_config/gitconfig ~/.gitconfig
-
-git clone https://lutaoact@bitbucket.org/lutaoact/node-server.git
-cd node-server
-npm --verbose install
+sed -i '/credential\|osxkeychain/d' ~/some_config/gitconfig
 HERE_DOC
 
 su --login centos -c "$CENTOS_CMD" #以centos用户来执行命令

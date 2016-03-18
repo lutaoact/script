@@ -3,6 +3,7 @@
 
 yum -y update
 mkdir -p /data/tmp
+chmod 777 /data/tmp
 
 ## 安装shadowsocks
 yum -y install python-setuptools && easy_install pip
