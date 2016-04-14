@@ -53,6 +53,47 @@ wget http://nginx.org/keys/nginx_signing.key
 rpm --import nginx_signing.key
 yum -y update && yum install -y nginx
 
+cat << 'EOF' > /etc/nginx/conf.d/reverse-proxy.conf
+server
+{
+    listen 80;
+    server_name devapi.stockalert.cn;
+    location / {
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://127.0.0.1:9001;
+
+        set $cors '';
+        if ($http_origin ~* '(124.79.145.86|localhost|127.0.0.1)') {
+          set $cors 'true';
+        }
+
+        if ($cors = 'true') {
+          add_header 'Access-Control-Allow-Origin' "$http_origin";
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+          add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With';
+#          add_header 'Access-Control-Allow-Headers' '*';
+        }
+
+        if ($request_method = 'OPTIONS') {
+          add_header 'Access-Control-Allow-Origin' "$http_origin";
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+          add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With';
+#          add_header 'Access-Control-Allow-Headers' '*';
+          add_header 'Content-Type' 'text/plain';
+          add_header 'Content-Length' 0;
+          return 204;
+        }
+    }
+    access_log /data/log/devapi.stockalert.cn.nginx.access.log;
+}
+EOF
+service nginx restart
+
 
 ## 安装mongodb
 cat << 'EOF' > /etc/yum.repos.d/mongodb-org-3.2.repo
