@@ -33,6 +33,10 @@ centos    ALL=(ALL)       ALL
 EOF
 #sed -i '/secure_path/{s#$#:/usr/local/bin#}' /etc/sudoers #安全路径中增加/usr/local/bin
 
+# 禁用root用户登录
+sed -i.bak '/PermitRootLogin/c PermitRootLogin no' /etc/ssh/sshd_config
+service sshd restart
+
 mkdir -p /data
 mkdir -p /data/log
 mkdir -p /data/backup
