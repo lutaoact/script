@@ -1,5 +1,9 @@
 #!/bin/bash
 
+function mkdircd () {
+  mkdir -p "$@" && eval cd "\"\$$#\""
+}
+
 function sort_lines_by_length {
   if [ -z "$1" ]; then
     echo "collection name is required"
@@ -20,7 +24,10 @@ function gbk2utf8 {
 function svn_ci {
   dir=$(pwd)
   #rsync的源路径如果以/结尾，表示同步目录里面的内容，如果没有/，则会将目录同步过去
-  rsync -r --quiet --exclude=.git --exclude=.gitignore --exclude-from="$dir"/.gitignore "$dir"/ ~/Service/trunk/node-server/
+  rsync --recursive --verbose --exclude=.git --exclude=scripts \
+    --exclude=services --exclude=.gitignore --exclude-from="$dir"/.gitignore \
+    "$dir"/ ~/Service/trunk/node-server/
+#  rsync -r --quiet --exclude=.git --exclude=scripts --exclude=.gitignore --exclude-from="$dir"/.gitignore "$dir"/ ~/Service/trunk/node-server/
   cd ~/Service/trunk/node-server/
   svn add --force .
   svn ci -m "$1"
