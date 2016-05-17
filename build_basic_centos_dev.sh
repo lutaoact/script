@@ -33,8 +33,8 @@ centos    ALL=(ALL)       ALL
 EOF
 
 # 禁用root用户登录
-sed -i.bak '/PermitRootLogin/c PermitRootLogin no' /etc/ssh/sshd_config
-service sshd restart
+#sed -i.bak '/PermitRootLogin/c PermitRootLogin no' /etc/ssh/sshd_config
+#service sshd restart
 
 ## CENTOS_CMD中的内容由centos用户来执行
 read -r -d '' CENTOS_CMD << 'HERE_DOC'
@@ -54,6 +54,8 @@ fi
 
 export EDITOR=vim
 export VISUAL=vim
+
+#export PS1='[\u@dev \W]\$ '
 EOF
 
 cd ~
