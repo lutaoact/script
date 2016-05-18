@@ -67,3 +67,14 @@ function sync_from {
   echo -e "mongoimport -d gpws -c $1 --jsonArray /data/backup/$backup_file"
   mongoimport -d gpws -c $1 --jsonArray /data/backup/$backup_file
 }
+
+function dump {
+  if [ -z "$1" ]; then
+    echo "collection name is required"
+    exit 1
+  fi
+  time_str=$(date +'%Y%m%d%H%M%S')
+  backup_file=${1}_${time_str}.json
+  echo -e "mongoexport -d gpws -c $1 --jsonArray -o /data/backup/$backup_file"
+  mongoexport -d gpws -c "$1" --jsonArray -o /data/backup/$backup_file
+}
