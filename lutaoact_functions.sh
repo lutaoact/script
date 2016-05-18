@@ -47,8 +47,8 @@ function sync_to {
   echo "scp /data/backup/$backup_file node:/data/backup"
   scp /data/backup/$backup_file node:/data/backup
 
-  echo "ssh node \"mongoimport -h mongo -d gpws -c $1 --jsonArray /data/backup/$backup_file\""
-  ssh node "mongoimport -h mongo -d gpws -c $1 --jsonArray /data/backup/$backup_file"
+  echo "ssh node \"mongoimport -h gpws/mongo,mongoB,mongoD -d gpws -c $1 --jsonArray /data/backup/$backup_file\""
+  ssh node "mongoimport -h gpws/mongo,mongoB,mongoD -d gpws -c $1 --jsonArray /data/backup/$backup_file"
 }
 
 function sync_from {
