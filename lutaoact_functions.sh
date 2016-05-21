@@ -1,5 +1,12 @@
 #!/bin/bash
 
+function gotunnel() {
+  while true
+  do
+    ssh -N tunnel
+  done
+}
+
 function mkdircd () {
   mkdir -p "$@" && eval cd "\"\$$#\""
 }
