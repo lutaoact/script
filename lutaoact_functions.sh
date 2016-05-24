@@ -72,7 +72,7 @@ function sync_from {
   scp node:/data/backup/$backup_file /data/backup/
 
   echo -e "mongoimport -d gpws -c $1 --jsonArray /data/backup/$backup_file"
-  mongoimport -d gpws -c $1 --jsonArray /data/backup/$backup_file
+  mongoimport -d gpws -c $1 --drop --jsonArray /data/backup/$backup_file
 }
 
 function dump {
