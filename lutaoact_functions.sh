@@ -4,6 +4,7 @@ function gotunnel() {
   while true
   do
     ssh -N tunnel
+    sleep 5
   done
 }
 
