@@ -162,6 +162,7 @@ export VISUAL=vim
 
 export NODE_ENV=development
 alias npm='npm --registry=https://registry.npm.taobao.org'
+alias pm2="pm2 --log-date-format 'YYYY-MM-DDTHH:mm:ssZ'"
 
 alias redis-cli='redis-cli --raw' #让redis-cli正常显示中文
 EOF
