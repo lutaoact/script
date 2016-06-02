@@ -1,2 +1,9 @@
 #!/bin/bash
-echo "!hhh";
+
+#echo "!hhh";
+
+if [ "$1" = 'all' ]; then
+  echo 'all here'
+else
+  echo 'not all here'
+fi

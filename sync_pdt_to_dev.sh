@@ -12,7 +12,11 @@ function sync_from {
   mongoimport -d gpws-dev -c $1 --drop /data/backup/$backup_file
 }
 
-for i in code_info stock theme theme_stock top_info
-do
-  sync_from $i
-done
+if [ "$1" = 'all' ]; then
+  for i in code_info stock theme theme_stock top_info
+  do
+    sync_from $i
+  done
+else
+  sync_from top_info
+fi
