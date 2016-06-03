@@ -119,9 +119,9 @@ yum -y update && yum install -y mongodb-org && service mongod start
 yum install -y tcl #安装tcl依赖
 
 cd /data/backup
-wget http://download.redis.io/releases/redis-3.0.7.tar.gz
-tar xvfz redis-3.0.7.tar.gz
-cd redis-3.0.7
+wget -c http://download.redis.io/releases/redis-3.2.0.tar.gz
+tar xvfz redis-3.2.0.tar.gz
+cd redis-3.2.0
 
 make
 make test
