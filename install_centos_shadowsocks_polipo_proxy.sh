@@ -7,6 +7,7 @@ chmod 777 /data/tmp
 
 ## 安装shadowsocks
 yum -y install python-setuptools && easy_install pip
+# apt install python-pip #ubuntu
 pip install shadowsocks
 
 #写入shadowsocks的配置文件
