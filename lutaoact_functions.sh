@@ -1,5 +1,13 @@
 #!/bin/bash
 
+function qng() {
+  qingcloud "$@" -f ~/private-config/qingcloud_config.yaml
+}
+
+function qnw() {
+  qingcloud "$@" -f ~/private-config/qingcloud_config_wind.yaml
+}
+
 function gotunnel() {
   while true
   do
