@@ -1,10 +1,10 @@
 #!/bin/bash
 
-function qng() {
+function qyg() {
   qingcloud "$@" -f ~/private-config/qingcloud_config.yaml
 }
 
-function qnw() {
+function qyw() {
   qingcloud "$@" -f ~/private-config/qingcloud_config_wind.yaml
 }
 
