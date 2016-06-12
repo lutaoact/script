@@ -1,10 +1,25 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
-  echo "date is required"
-  exit 1
-fi
+function export_one_day() {
+  result=$(redis-cli -h mongo -n 1 --eval dump_redis_hostCount.lua , "$1")
+  if [ -z "$result" ]; then
+    echo "result for $1 is empty"
+    exit 0
+  fi
 
-date=$1
+  echo "date: $1 => success"
+  echo "$result" > /data/backup/dump_redis_hostCount_$1.txt
+}
 
-redis-cli -h mongo -n 1 --eval dump_redis_hostCount.lua , "$1" > /data/backup/dump_redis_hostCount_$1.txt
+timestamp=$(date +'%s')
+processing_timestamp=$[$timestamp - 86400 * 7]
+
+while true
+do
+  dateStr=$(date -d @"$processing_timestamp" +'%Y%m%d')
+  echo "date: $dateStr"
+
+  export_one_day "dateStr"
+
+  processing_timestamp=$[processing_timestamp - 86400]
+done
