@@ -6,6 +6,6 @@ for index = 1, #hostCountKeys do
   result = result..hashKey..'##'..table.concat(hash, '**').."\n"
   redis.log(redis.LOG_NOTICE, "index: "..index..", hashKey: "..hashKey)
 --  redis.log(redis.LOG_NOTICE, result)
---  redis.call('del', hashKey)
+  redis.call('del', hashKey)
 end
 return result;
