@@ -39,15 +39,15 @@ function gbk2utf8 {
 
 function svn_ci {
   dir=$(pwd)
-  #rsync的源路径如果以/结尾，表示同步目录里面的内容，如果没有/，则会将目录同步过去
-  rsync --recursive --verbose --exclude=.git --exclude=scripts \
-    --exclude=services --exclude=.gitignore --exclude-from="$dir"/.gitignore \
-    "$dir"/ ~/Service/trunk/node-server/
-#  rsync -r --quiet --exclude=.git --exclude=scripts --exclude=.gitignore --exclude-from="$dir"/.gitignore "$dir"/ ~/Service/trunk/node-server/
-  cd ~/Service/trunk/node-server/
-  svn add --force .
-  svn ci -m "$1"
-  cd $dir
+#  #rsync的源路径如果以/结尾，表示同步目录里面的内容，如果没有/，则会将目录同步过去
+#  rsync --recursive --verbose --exclude=.git --exclude=scripts \
+#    --exclude=services --exclude=.gitignore --exclude-from="$dir"/.gitignore \
+#    "$dir"/ ~/Service/trunk/node-server/
+##  rsync -r --quiet --exclude=.git --exclude=scripts --exclude=.gitignore --exclude-from="$dir"/.gitignore "$dir"/ ~/Service/trunk/node-server/
+#  cd ~/Service/trunk/node-server/
+#  svn add --force .
+#  svn ci -m "$1"
+#  cd $dir
 }
 
 function sync_to {
@@ -57,8 +57,8 @@ function sync_to {
   fi
   date=$(date +%F)
   backup_file=${1}_$date.json
-  echo -e "mongoexport -d gpws -c $1 --jsonArray -o /data/backup/$backup_file"
-  mongoexport -d gpws -c "$1" --jsonArray -o /data/backup/$backup_file
+  echo -e "mongoexport -d gpws-dev -c $1 --jsonArray -o /data/backup/$backup_file"
+  mongoexport -d gpws-dev -c "$1" --jsonArray -o /data/backup/$backup_file
 
   echo "scp /data/backup/$backup_file node:/data/backup"
   scp /data/backup/$backup_file node:/data/backup
@@ -81,7 +81,7 @@ function sync_from {
   scp node:/data/backup/$backup_file /data/backup/
 
   echo -e "mongoimport -d gpws -c $1 --jsonArray /data/backup/$backup_file"
-  mongoimport -d gpws -c $1 --drop --jsonArray /data/backup/$backup_file
+  mongoimport -d gpws-dev -c $1 --drop --jsonArray /data/backup/$backup_file
 }
 
 function dump {
