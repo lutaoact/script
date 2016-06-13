@@ -1,12 +1,20 @@
 #!/bin/bash
 
-if [ -n "$1" ]; then
-  processing_timestamp=$(date -d "$1" +'%s')
-else
-  processing_timestamp=$[$(date +'%s') - 86400 * 7]
-fi
+tables=(analyst code_info customize_alarm effect_topic favor_stock_alarm \
+    hot_stock invitation new_stock push_token recharge redeem_code stock \
+    theme theme_stock top_info user user_action)
 
-echo $processing_timestamp
+for i in "${tables[@]}"; do
+  echo $i
+done
+
+#if [ -n "$1" ]; then
+#  processing_timestamp=$(date -d "$1" +'%s')
+#else
+#  processing_timestamp=$[$(date +'%s') - 86400 * 7]
+#fi
+#
+#echo $processing_timestamp
 
 #echo "!hhh";
 #

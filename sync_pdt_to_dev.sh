@@ -12,8 +12,13 @@ function sync_from {
   mongoimport -d gpws-dev -c $1 --drop /data/backup/$backup_file
 }
 
+
+tables=(analyst code_info customize_alarm effect_topic favor_stock_alarm \
+    hot_stock invitation new_stock push_token recharge redeem_code stock \
+    theme theme_stock top_info user user_action)
+
 if [ "$1" = 'all' ]; then
-  for i in code_info stock theme theme_stock top_info
+  for i in "${tables[@]}"
   do
     sync_from $i
   done
