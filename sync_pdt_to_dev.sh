@@ -13,7 +13,7 @@ function sync_from {
 }
 
 
-tables=(analyst code_info customize_alarm effect_topic favor_stock_alarm \
+tables=(analyst code_info effect_topic favor_stock_alarm \
     hot_stock invitation new_stock push_token recharge redeem_code stock \
     theme theme_stock top_info user user_action)
 
