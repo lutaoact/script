@@ -1,27 +1,38 @@
 #!/bin/bash
 
-tables=(analyst code_info customize_alarm effect_topic favor_stock_alarm \
-    hot_stock invitation new_stock push_token recharge redeem_code stock \
-    theme theme_stock top_info user user_action)
-
-for i in "${tables[@]}"; do
-  echo $i
+for i in $(find /data/files -name '*.amr' -type f); do
+#  node /home/ubuntu/scott/build/app/fixaudio.js "$i" "${i/.amr/.mp3}"
+  echo "$i" "${i/.amr/.mp3}"
 done
 
-cd ~/node-server
-pm2 start app.js
-pm2 start netServer.js
+  echo "$i" "${i/.amr/.mp3}"
+find /data/files/*.amr -type f -exec node /home/ubuntu/scott/build/app/fixaudio.js {} {} \;
 
-cd ~/node-recharge
-export NODE_ENV=recharge-dev
-pm2 start app.js --name recharge
+#array=('1     1' 22 33 44)
+#echo ${array[*]}
+#echo ${array[@]}
+#for i in "${array[*]}"; do
+#  echo "$i"
+#done
+#
+#for i in "${array[@]}"; do
+#  echo "$i"
+#done
 
-echo 'ddxd2015' | sudo -S service stop redis
-mv /data/redis/dump.rdb /data/redis/dump.bak.rdb
-scp mongo:/data/redis/dump.rdb /data/redis
-echo 'ddxd2015' | sudo -S service start redis
-
-
+#cd ~/node-server
+#pm2 start app.js
+#pm2 start netServer.js
+#
+#cd ~/node-recharge
+#export NODE_ENV=recharge-dev
+#pm2 start app.js --name recharge
+#
+#echo 'ddxd2015' | sudo -S service stop redis
+#mv /data/redis/dump.rdb /data/redis/dump.bak.rdb
+#scp mongo:/data/redis/dump.rdb /data/redis
+#echo 'ddxd2015' | sudo -S service start redis
+#
+#
 #if [ -n "$1" ]; then
 #  processing_timestamp=$(date -d "$1" +'%s')
 #else
