@@ -1,12 +1,22 @@
 #!/bin/bash
 
-for i in $(find /data/files -name '*.amr' -type f); do
-#  node /home/ubuntu/scott/build/app/fixaudio.js "$i" "${i/.amr/.mp3}"
-  echo "$i" "${i/.amr/.mp3}"
-done
+function how_to_return() {
+  return 0;
+}
 
-  echo "$i" "${i/.amr/.mp3}"
-find /data/files/*.amr -type f -exec node /home/ubuntu/scott/build/app/fixaudio.js {} {} \;
+if how_to_return; then
+  echo ok
+else
+  echo not ok
+fi
+
+#for i in $(find /data/files -name '*.amr' -type f); do
+##  node /home/ubuntu/scott/build/app/fixaudio.js "$i" "${i/.amr/.mp3}"
+#  echo "$i" "${i/.amr/.mp3}"
+#done
+#
+#  echo "$i" "${i/.amr/.mp3}"
+#find /data/files/*.amr -type f -exec node /home/ubuntu/scott/build/app/fixaudio.js {} {} \;
 
 #array=('1     1' 22 33 44)
 #echo ${array[*]}
