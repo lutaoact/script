@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xv
 
 function qyg() {
   qingcloud "$@" -f ~/private-config/qingcloud_config.yaml
@@ -80,7 +80,7 @@ function sync_from {
   echo "scp node:/data/backup/$backup_file /data/backup/"
   scp node:/data/backup/$backup_file /data/backup/
 
-  echo -e "mongoimport -d gpws -c $1 --jsonArray /data/backup/$backup_file"
+  echo -e "mongoimport -d gpws-dev -c $1 --jsonArray /data/backup/$backup_file"
   mongoimport -d gpws-dev -c $1 --drop --jsonArray /data/backup/$backup_file
 }
 
