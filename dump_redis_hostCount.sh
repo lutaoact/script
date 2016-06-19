@@ -16,7 +16,7 @@ function export_one_day() {
 if [ -n "$1" ]; then
   processing_timestamp=$(date -d "$1" +'%s')
 else
-  processing_timestamp=$[$(date +'%s') - 86400 * 7]
+  processing_timestamp=$[$(date +'%s') - 86400 * 3]
 fi
 
 while true
