@@ -14,10 +14,10 @@ for i = 1, #sourceTypes do
     for k = 1, #abnormals do
       local obj = cjson.decode(abnormals[k]);
       if type(obj.author) ~= 'string' then
+        redis.log(redis.LOG_NOTICE, key, abnormals[k], type(obj.author))
         table.insert(result, key..'#'..(k - 1)..'#'..abnormals[k])
         obj.author = ''
         abnormals[k] = cjson.encode(obj);
-        redis.log(redis.LOG_NOTICE, key, abnormals[k], type(obj.author))
         redis.call('lset', key, k - 1, abnormals[k])
       end
     end
