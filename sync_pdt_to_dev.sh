@@ -9,7 +9,7 @@ function sync_from {
   mongoexport -h mongo -d gpws -c $1 -o /data/backup/$backup_file
 
   echo "mongoimport -d gpws-dev -c $1 /data/backup/$backup_file"
-  mongoimport -d gpws-dev -c $1 --drop /data/backup/$backup_file
+  mongoimport -d gpws-dev -c $1 --numInsertionWorkers=4 --batchSize=100 --drop /data/backup/$backup_file
 }
 
 

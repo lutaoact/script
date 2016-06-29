@@ -57,14 +57,14 @@ function sync_to {
   fi
   date=$(date +%F)
   backup_file=${1}_$date.json
-  echo -e "mongoexport -d gpws-dev -c $1 --jsonArray -o /data/backup/$backup_file"
-  mongoexport -d gpws-dev -c "$1" --jsonArray -o /data/backup/$backup_file
+  echo -e "mongoexport -d gpws-dev -c $1 -o /data/backup/$backup_file"
+  mongoexport -d gpws-dev -c "$1" -o /data/backup/$backup_file
 
   echo "scp /data/backup/$backup_file node:/data/backup"
   scp /data/backup/$backup_file node:/data/backup
 
-  echo "ssh node \"mongoimport -h gpws/mongo,mongoB,mongoD -d gpws -c $1 --jsonArray /data/backup/$backup_file\""
-  ssh node "mongoimport -h gpws/mongo,mongoB,mongoD -d gpws -c $1 --jsonArray /data/backup/$backup_file"
+  echo "ssh node \"mongoimport -h gpws/mongo,mongoB,mongoD -d gpws -c $1 /data/backup/$backup_file\""
+  ssh node "mongoimport -h gpws/mongo,mongoB,mongoD -d gpws -c $1 /data/backup/$backup_file"
 }
 
 function sync_from {
@@ -74,14 +74,14 @@ function sync_from {
   fi
   date=$(date +%F)
   backup_file=${1}_$date.json
-  echo "ssh node \"mongoexport -h mongo -d gpws -c $1 --jsonArray -o /data/backup/$backup_file\""
-  ssh node "mongoexport -h mongo -d gpws -c $1 --jsonArray -o /data/backup/$backup_file"
+  echo "ssh node \"mongoexport -h mongo -d gpws -c $1 -o /data/backup/$backup_file\""
+  ssh node "mongoexport -h mongo -d gpws -c $1 -o /data/backup/$backup_file"
 
   echo "scp node:/data/backup/$backup_file /data/backup/"
   scp node:/data/backup/$backup_file /data/backup/
 
-  echo -e "mongoimport -d gpws-dev -c $1 --jsonArray /data/backup/$backup_file"
-  mongoimport -d gpws-dev -c $1 --drop --jsonArray /data/backup/$backup_file
+  echo -e "mongoimport -d gpws-dev -c $1 /data/backup/$backup_file"
+  mongoimport -d gpws-dev -c $1 --numInsertionWorkers=4 --batchSize=100 --drop /data/backup/$backup_file
 }
 
 function dump {
@@ -91,6 +91,6 @@ function dump {
   fi
   time_str=$(date +'%Y%m%d%H%M%S')
   backup_file=${1}_${time_str}.json
-  echo -e "mongoexport -d gpws -c $1 --jsonArray -o /data/backup/$backup_file"
-  mongoexport -d gpws -c "$1" --jsonArray -o /data/backup/$backup_file
+  echo -e "mongoexport -d gpws -c $1 -o /data/backup/$backup_file"
+  mongoexport -d gpws -c "$1" -o /data/backup/$backup_file
 }
