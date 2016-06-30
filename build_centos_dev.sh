@@ -114,13 +114,11 @@ yum -y update && yum install -y mongodb-org && service mongod start
 yum install -y tcl #安装tcl依赖
 
 cd /data/backup
-wget http://download.redis.io/releases/redis-3.0.7.tar.gz
-tar xvfz redis-3.0.7.tar.gz
-cd redis-3.0.7
+wget http://download.redis.io/releases/redis-3.2.1.tar.gz
+tar xvfz redis-3.2.1.tar.gz
+cd redis-3.2.1
 
-make
-make test
-make install
+make && make test && make install || exit 1
 
 # 设置自动启动脚本
 cd utils
@@ -138,7 +136,7 @@ cd utils
 cp /etc/init.d/redis_6379 /etc/init.d/redis
 chkconfig --add redis
 chkconfig --del redis_6379
-\rm /etc/init.d/redis_6379
+rm -f /etc/init.d/redis_6379
 service redis restart
 
 ## CENTOS_CMD中的内容由centos用户来执行
