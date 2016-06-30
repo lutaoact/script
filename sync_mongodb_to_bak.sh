@@ -33,4 +33,4 @@ backup_path="$dbname_$suffix"
 mongodump    --host=127.0.0.1 --port=37017 --db="$dbname" -o "$backup_path"
 mongorestore --host=127.0.0.1 --port=27017 --db="$dbname" --drop \
              --numParallelCollections=4 --numInsertionWorkersPerCollection=4 \
-             --batchSize=100 "$backup_path/$dbname/"
+             --batchSize=100 --stopOnError "$backup_path/$dbname/"
