@@ -14,7 +14,7 @@ function sync_from {
 
 
 tables=(code_info effect_topic favor_stock_alarm \
-    invitation new_stock push_token recharge redeem_code stock \
+    invitation new_stock recharge redeem_code stock \
     theme theme_stock top_info)
 
 if [ "$1" = 'all' ]; then
