@@ -41,8 +41,9 @@ function svn_ci {
   dir=$(pwd)
   #rsync的源路径如果以/结尾，表示同步目录里面的内容，如果没有/，则会将目录同步过去
   rsync --recursive --verbose --exclude=.git --exclude=scripts \
-    --exclude=services --exclude=.gitignore --exclude-from="$dir"/.gitignore \
-    "$dir"/ ~/Service/trunk/node-server/
+      --exclude=services --exclude=.gitignore --exclude=mongoscripts \
+      --exclude-from="$dir"/.gitignore \
+      "$dir"/ ~/Service/trunk/node-server/
 #  rsync -r --quiet --exclude=.git --exclude=scripts --exclude=.gitignore --exclude-from="$dir"/.gitignore "$dir"/ ~/Service/trunk/node-server/
   cd ~/Service/trunk/node-server/
   svn add --force .
