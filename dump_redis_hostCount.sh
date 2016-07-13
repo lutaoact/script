@@ -12,11 +12,11 @@ function export_one_day() {
 }
 
 # 如果提供了日期，就从提供的日期开始，向前处理
-# 如果没有提供日期，则向前推7天开始处理
+# 如果没有提供日期，则从昨天开始处理
 if [ -n "$1" ]; then
   processing_timestamp=$(date -d "$1" +'%s')
 else
-  processing_timestamp=$[$(date +'%s') - 86400 * 3]
+  processing_timestamp=$[$(date +'%s') - 86400 * 1]
 fi
 
 while true
@@ -25,6 +25,7 @@ do
   echo "date: $dateStr"
 
   export_one_day "$dateStr"
+  sleep 5
 
   processing_timestamp=$[processing_timestamp - 86400] #推到前一天
 done
