@@ -1,0 +1,19 @@
+#!/bin/sh
+
+to_dir=~/Service/trunk/node-server/
+
+function svn_ci {
+  dir=$(pwd)
+
+  rsync --recursive --verbose --exclude=.git --exclude=.svn \
+      --exclude=.gitignore \
+      --exclude-from="$dir"/.gitignore \
+      "$dir"/ "$to_dir"
+  cd "$to_dir"
+  svn add --force .
+  svn ci -m "$1"
+  cd $dir
+}
+
+msg=$(git log -1 --format="%s" HEAD)
+svn_ci "at $(date +%F): $msg"
