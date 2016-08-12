@@ -11,7 +11,15 @@ function qyw() {
 function gotunnel() {
   while true
   do
-    ssh -N tunnel
+    ssh -v -N tunnel
+    sleep 5
+  done
+}
+
+function remote-forward() {
+  while true
+  do
+    ssh -v -N remote-forward
     sleep 5
   done
 }
@@ -39,13 +47,13 @@ function gbk2utf8 {
 
 function svn_ci {
   dir=$(pwd)
+  cd ~/Service/trunk/node-server/ && svn update
   #rsync的源路径如果以/结尾，表示同步目录里面的内容，如果没有/，则会将目录同步过去
   rsync --recursive --verbose --exclude=.git --exclude=scripts \
       --exclude=services --exclude=.gitignore --exclude=mongoscripts \
       --exclude-from="$dir"/.gitignore \
       "$dir"/ ~/Service/trunk/node-server/
 #  rsync -r --quiet --exclude=.git --exclude=scripts --exclude=.gitignore --exclude-from="$dir"/.gitignore "$dir"/ ~/Service/trunk/node-server/
-  cd ~/Service/trunk/node-server/
   svn add --force .
   svn ci -m "$1"
   cd $dir
