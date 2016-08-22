@@ -16,11 +16,11 @@ function gotunnel() {
   done
 }
 
-function remote-forward() {
+function remotenode() {
   while true
   do
-    ssh -v -N remote-forward
-    sleep 5
+    ssh -v -N remotenode
+    sleep 10
   done
 }
 
