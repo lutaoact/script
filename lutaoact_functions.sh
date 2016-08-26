@@ -8,22 +8,6 @@ function qyw() {
   qingcloud "$@" -f ~/private-config/qingcloud_config_wind.yaml
 }
 
-function gotunnel() {
-  while true
-  do
-    ssh -v -N tunnel
-    sleep 5
-  done
-}
-
-function remotenode() {
-  while true
-  do
-    ssh -v -N remotenode
-    sleep 10
-  done
-}
-
 function mkdircd () {
   mkdir -p "$@" && eval cd "\"\$$#\""
 }
