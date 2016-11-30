@@ -33,8 +33,8 @@ function svn_ci {
   dir=$(pwd)
   cd ~/Service/trunk/node-server/ && svn update
   #rsync的源路径如果以/结尾，表示同步目录里面的内容，如果没有/，则会将目录同步过去
-  rsync --recursive --verbose --exclude=.git --exclude=scripts \
-      --exclude=services --exclude=.gitignore --exclude=mongoscripts \
+  rsync --recursive --verbose --exclude=.git \
+      --exclude=.gitignore \
       --exclude-from="$dir"/.gitignore \
       "$dir"/ ~/Service/trunk/node-server/
 #  rsync -r --quiet --exclude=.git --exclude=scripts --exclude=.gitignore --exclude-from="$dir"/.gitignore "$dir"/ ~/Service/trunk/node-server/
@@ -48,16 +48,17 @@ function sync_to {
     echo "collection name is required"
     exit 1
   fi
-  date=$(date +%F)
-  backup_file=${1}_$date.json
-  echo -e "mongoexport -d gpws-dev -c $1 -o /data/backup/$backup_file"
-  mongoexport -d gpws-dev -c "$1" -o /data/backup/$backup_file
+  mongodump -h 127.0.0.1 -p 27017 -d gpws-dev -c $1 --out - | ssh dev \
+      "mongorestore -h 127.0.0.1 -p 27017 -d gpws-dev -c $1 --dir -"
+}
 
-  echo "scp /data/backup/$backup_file node:/data/backup"
-  scp /data/backup/$backup_file node:/data/backup
-
-  echo "ssh node \"mongoimport -h gpws/mongo,mongoB,mongoD -d gpws -c $1 /data/backup/$backup_file\""
-  ssh node "mongoimport -h gpws/mongo,mongoB,mongoD -d gpws -c $1 /data/backup/$backup_file"
+function sync_to_pdt {
+  if [ -z "$1" ]; then
+    echo "collection name is required"
+    exit 1
+  fi
+  mongodump -h 127.0.0.1 -d gpws-dev -c $1 --out - | ssh node \
+      "mongorestore -h gpws/mongo,mongoB,mongoD -d gpws -c $1 --dir -"
 }
 
 function sync_from {
