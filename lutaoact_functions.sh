@@ -61,21 +61,22 @@ function sync_to_pdt {
       "mongorestore -h gpws/mongo,mongoB,mongoD -d gpws -c $1 --dir -"
 }
 
+function sync_from_pdt {
+  if [ -z "$1" ]; then
+    echo "collection name is required"
+    exit 1
+  fi
+  ssh node "mongodump -h mongo -d gpws -c $1 --out -" | \
+      mongorestore -h 127.0.0.1 -d gpws-dev -c $1 --drop --dir -
+}
+
 function sync_from {
   if [ -z "$1" ]; then
     echo "collection name is required"
     exit 1
   fi
-  date=$(date +%F)
-  backup_file=${1}_$date.json
-  echo "ssh node \"mongoexport -h mongo -d gpws -c $1 -o /data/backup/$backup_file\""
-  ssh node "mongoexport -h mongo -d gpws -c $1 -o /data/backup/$backup_file"
-
-  echo "scp node:/data/backup/$backup_file /data/backup/"
-  scp node:/data/backup/$backup_file /data/backup/
-
-  echo -e "mongoimport -d gpws-dev -c $1 /data/backup/$backup_file"
-  mongoimport -d gpws-dev -c $1 --numInsertionWorkers=4 --batchSize=100 --drop /data/backup/$backup_file
+  ssh dev "mongodump -h 127.0.0.1 -d gpws-dev -c $1 --out -" | \
+      mongorestore -h 127.0.0.1 -d gpws-dev -c $1 --drop --dir -
 }
 
 function dump {
