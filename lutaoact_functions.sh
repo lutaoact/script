@@ -23,10 +23,11 @@ function sort_lines_by_length {
 }
 
 function gbk2utf8 {
-  j="${1}_tmp"
-  iconv -f GBK -t UTF-8 "$1" > "$j"
-  mv "$j" "$1"
-  dos2unix -r "$1"
+#  j="${1}_tmp"
+#  iconv -f GBK -t UTF-8 "$1" > "$j"
+#  mv "$j" "$1"
+#  dos2unix -r "$1"
+  perl ~/perl/gbk2utf8.pl "$@"
 }
 
 function svn_ci {
