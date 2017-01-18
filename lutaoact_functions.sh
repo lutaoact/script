@@ -26,8 +26,7 @@ function gbk2utf8 {
 #  j="${1}_tmp"
 #  iconv -f GBK -t UTF-8 "$1" > "$j"
 #  mv "$j" "$1"
-#  dos2unix -r "$1"
-  perl ~/perl/gbk2utf8.pl "$@"
+  perl ~/perl/gbk2utf8.pl "$@" && dos2unix -r "$@"
 }
 
 function svn_ci {
@@ -49,8 +48,8 @@ function sync_to {
     echo "collection name is required"
     exit 1
   fi
-  mongodump -h 127.0.0.1 -p 27017 -d gpws-dev -c $1 --out - | ssh dev \
-      "mongorestore -h 127.0.0.1 -p 27017 -d gpws-dev -c $1 --dir -"
+  mongodump -h 127.0.0.1 -p 27017 -d gpws-dev -c "$1" --archive --gzip | \
+    ssh dev "mongorestore -h 127.0.0.1 -p 27017 --archive --gzip"
 }
 
 function sync_to_pdt {
@@ -59,7 +58,7 @@ function sync_to_pdt {
     exit 1
   fi
   mongodump -h 127.0.0.1 -d gpws-dev -c $1 --out - | ssh node \
-      "mongorestore -h gpws/mongo,mongoB,mongoD -d gpws -c $1 --dir -"
+    "mongorestore -h gpws/mongo,mongoB,mongoD -d gpws -c $1 --dir -"
 }
 
 function sync_from_pdt {
@@ -67,8 +66,8 @@ function sync_from_pdt {
     echo "collection name is required"
     exit 1
   fi
-  ssh node "mongodump -h mongo -d gpws -c $1 --out -" | \
-      mongorestore -h 127.0.0.1 -d gpws-dev -c $1 --drop --dir -
+  ssh node "mongodump -h mongo -d gpws -c $1 --archive --gzip" | \
+    mongorestore --nsFrom='gpws.*' --nsTo='gpws-dev.*' --archive --gzip
 }
 
 function sync_from {
@@ -76,8 +75,8 @@ function sync_from {
     echo "collection name is required"
     exit 1
   fi
-  ssh dev "mongodump -h 127.0.0.1 -d gpws-dev -c $1 --out -" | \
-      mongorestore -h 127.0.0.1 -d gpws-dev -c $1 --drop --dir -
+  ssh dev "mongodump -h 127.0.0.1 -d gpws-dev -c $1 --archive --gzip" | \
+    mongorestore --archive --gzip #重复数据会报错，但程序并不结束
 }
 
 function dump {
