@@ -8,6 +8,27 @@ function qyw() {
   qingcloud "$@" -f ~/private-config/qingcloud_config_wind.yaml
 }
 
+function rediscome() {
+  if [ $# -ne 2 ]; then
+    echo "Usage: rediscome n key"
+    echo "\tn is database number"
+    echo "\tkey is redis number"
+    return 1
+  fi
+  n=$1
+  key=$2
+  ssh node "\redis-cli -h mongo -n $n --raw dump $2" | head -c-1 | \redis-cli -n $n -x restore $key 0
+}
+
+function redis1come() {
+  if [ -z "$1" ]; then
+    echo "Usage: redis1come key"
+    echo "redis key is required"
+    return 1
+  fi
+  rediscome 1 "$1"
+}
+
 function mkdircd () {
   mkdir -p "$@" && eval cd "\"\$$#\""
 }
