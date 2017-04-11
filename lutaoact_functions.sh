@@ -100,6 +100,23 @@ function sync_from_pdt {
     mongorestore --nsFrom='gpws.*' --nsTo='gpws-dev.*' --archive --gzip
 }
 
+function syncBigRes {
+  if [ -z "$1" ]; then
+    echo "collection name is required"
+    exit 1
+  fi
+  ssh node "mongodump -h mongoB -d bigRes -c $1 --archive --gzip" | \
+    mongorestore --archive --gzip
+}
+
+function syncBigResToFile {
+  if [ -z "$1" ]; then
+    echo "collection name is required"
+    exit 1
+  fi
+  ssh node "mongodump --host mongoB --port 37019 -d bigRes -c $1 --archive --gzip" > $1.archive
+}
+
 function sync_from {
   if [ -z "$1" ]; then
     echo "collection name is required"
@@ -118,4 +135,13 @@ function dump {
   backup_file=${1}_${time_str}.json
   echo -e "mongoexport -d gpws -c $1 -o /data/backup/$backup_file"
   mongoexport -d gpws -c "$1" -o /data/backup/$backup_file
+}
+
+function gettoken() {
+  response=$(curl -s 'http://dev.api.stockalert.cn/auth/token?appid=d8f334a0396f&sign=c452ebae5f8b7d62e3189e19a229edf284b72995')
+  # response的格式：
+  # {"message":"ok","timestamp":1491897440465,"payload":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiJkOGYzMzRhMDM5NmYiLCJpYXQiOjE0OTE4OTc0NDAsImV4cCI6MTQ5MTk4Mzg0MH0.ZwkRvscvDMlobzuL38nW3TrT6WSjt63Pko2-ewdi734"}}
+  tmpvalue=${response%\"*} #右截取 最小匹配 *是通配符 也就是从最右边开始到第一个双引号
+  result=${tmpvalue##*\"}  #左截取 最大匹配 也就是从左边开始，直到遇到第一个双引号
+  echo $result
 }
