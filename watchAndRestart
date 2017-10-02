@@ -1,0 +1,8 @@
+#!/bin/bash -xv
+
+fswatch --exclude 'make' -or . | xargs -n1 ~/bin/findMakeThenKill &
+
+while true
+do
+  make run_local_hms
+done
