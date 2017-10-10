@@ -1,0 +1,14 @@
+#!/usr/bin/expect -f
+
+#记录日志
+log_file -noappend "/data/log/expect.log"
+
+set timeout 30
+set password [lindex $argv 0]
+
+spawn ssh root@master-evm1
+expect "password:"
+send "$password\r"
+
+#进入交互模式
+interact
