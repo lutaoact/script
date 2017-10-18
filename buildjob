@@ -1,0 +1,13 @@
+#!/bin/bash -xv
+
+if [ "$1" != "hms" -a "$1" != "hub" -a "$1" != "hook" ]; then
+    echo "Usage: buildjob [hms|hub|hook] [version]"
+    exit 1
+fi
+
+make build_cross_"$1"
+cd make
+docker build -t stark-"$1" -f "$1"/stark-"$1".dockerfile .
+docker tag stark-"$1" index-dev.qiniu.io/kelibrary/stark-"$1":"$2"
+docker push index-dev.qiniu.io/kelibrary/stark-"$1":"$2"
+cd ../
