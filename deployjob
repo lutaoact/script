@@ -1,0 +1,9 @@
+#!/bin/bash -xv
+
+kubectl get deployment -n kube-system | grep stark
+
+kubectl delete deployment/stark-hub-deploy -n kube-system
+kubectl create -f hub/hub.deploy.yaml
+
+kubectl delete deployment/stark-hook-deploy -n kube-system
+kubectl create -f hook/hook.deploy.yaml
