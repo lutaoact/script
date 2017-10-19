@@ -2,7 +2,13 @@
 
 fswatch --exclude 'make' --exclude '\.git' -or . | xargs -n1 ~/bin/findMakeThenKill &
 
+if [ -z "$1" ]; then
+    CMD="make run_local_hms"
+else
+    CMD="make run_local_hub"
+fi
+
 while true
 do
-  make run_local_hms
+  $CMD
 done
