@@ -1,9 +1,19 @@
 #!/bin/bash -xv
 
+cd zhangdongqi/stark/deployment/template
+
+# 获取状态
+kubectl get pods -n kube-system | grep stark
 kubectl get deployment -n kube-system | grep stark
 
+# hms
+kubectl delete deployment/stark-hms-deploy -n kube-system
+kubectl create -f hms/hms.deploy.yaml
+
+# hub
 kubectl delete deployment/stark-hub-deploy -n kube-system
 kubectl create -f hub/hub.deploy.yaml
 
+# hook
 kubectl delete deployment/stark-hook-deploy -n kube-system
 kubectl create -f hook/hook.deploy.yaml
