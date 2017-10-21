@@ -1,5 +1,13 @@
 #!/bin/bash -xv
 
+
+#alias ls='ls -G' #for BSD ls
+#alias ll="ls -alFG" #for BSD ls
+alias ll="ls --color=auto -alF" #for GNU ls
+alias grep='grep --color=auto'
+
+alias redis-cli='redis-cli --raw' #让redis-cli正常显示中文
+
 function cd() { builtin cd "$@" && ls; }
 
 function tailmf() {
