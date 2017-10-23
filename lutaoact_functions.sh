@@ -3,6 +3,8 @@
 
 #alias ls='ls -G' #for BSD ls
 #alias ll="ls -alFG" #for BSD ls
+
+alias ls='ls --color=auto' #for GNU ls
 alias ll="ls --color=auto -alF" #for GNU ls
 alias grep='grep --color=auto'
 
