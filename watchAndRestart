@@ -1,14 +1,8 @@
 #!/bin/bash -xv
 
-fswatch --exclude 'make' --exclude '\.git' -or . | xargs -n1 ~/bin/findMakeThenKill &
-
-if [ -z "$1" ]; then
-    CMD="make run_local_hms"
-else
-    CMD="make run_local_hub"
-fi
+fswatch --exclude 'make' --exclude '\.git' -or ./$1 | xargs -n1 ~/bin/findMakeThenKill $1 &
 
 while true
 do
-  $CMD
+  make run_local_$1
 done
