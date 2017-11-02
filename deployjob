@@ -2,9 +2,19 @@
 
 cd zhangdongqi/stark/deployment/template
 
-# 获取状态
-kubectl get pods -n kube-system | grep stark
+# 获取deploy状态
 kubectl get deployment -n kube-system | grep stark
+
+# 获取configmap状态
+kubectl get cm -n kube-system | grep auth
+
+# 获取pod状态
+kubectl get pods -n kube-system | grep stark
+
+
+# 直接编辑deployment配置，编辑之后对应的pod就会自动被调度，也可以删除deployment，然后重新根据配置文件来创建
+kubectl edit deployment stark-hms-deploy -n kube-system
+kubectl edit deployment stark-hub-deploy -n kube-system
 
 # hms
 kubectl delete deployment/stark-hms-deploy -n kube-system
