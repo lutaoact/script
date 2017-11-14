@@ -27,3 +27,13 @@ kubectl create -f hub/hub.deploy.yaml
 # hook
 kubectl delete deployment/stark-hook-deploy -n kube-system
 kubectl create -f hook/hook.deploy.yaml
+
+stark-hms stark-hub stark-sites
+
+for i in stark-hms stark-hub stark-sites; do
+    cd $i
+    for j in *; do
+        kubectl apply -f $j
+    done
+    cd ..
+done
