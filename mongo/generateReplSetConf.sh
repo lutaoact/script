@@ -32,6 +32,6 @@ processManagement:
   pidFilePath: /data/tmp/mongod${1}.pid
 
 replication:
-  replSetName: replSetTest
+  replSetName: kirk_rs1_dev
 EOF
 }
