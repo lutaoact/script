@@ -1,0 +1,12 @@
+#!/usr/bin/expect -f
+
+log_file -noappend "/data/log/go342.log"
+
+set timeout 30
+
+spawn ssh j
+expect "$ "
+send "qssh root@xs342\r"
+
+#进入交互模式
+interact
