@@ -9,7 +9,7 @@ expect "$ "
 send "qssh root@cs1\r"
 
 expect "# "
-send "cs 51\r"
+send "cs 54\r"
 
 #进入交互模式
 interact
