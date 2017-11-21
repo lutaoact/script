@@ -1,4 +1,4 @@
 #!/bin/bash
-awk '{print substr($3, 4)}' /tmp/myself.txt | sed 's/,//g' | awk '{sum += $1 * 100}END{print sum}'
+awk '{print substr($3, 4)}' /tmp/myself.txt | sed 's/,//g' | awk '{sum += $1 * 100}END{print sum, sum / 100}'
 
 # 201710 8939.53
