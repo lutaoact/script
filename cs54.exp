@@ -1,6 +1,6 @@
 #!/usr/bin/expect -f
 
-log_file -noappend "/data/log/go51.log"
+log_file -noappend "/data/log/go54.log"
 
 set timeout 30
 
