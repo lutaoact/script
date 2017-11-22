@@ -1,4 +1,4 @@
 #!/bin/bash
-awk '{sum += $1 * 100}END{print sum, sum / 100}' /tmp/zhaohang.txt
+awk '{sum += $1 * 100}END{print sum, int(sum / 100)"."sum % 100}' /data/backup/zhaohang.txt
 
 # 201711 949082 9490.82
