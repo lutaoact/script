@@ -10,9 +10,9 @@ mkdir -p /data/conf /data/tmp /data/log /data/replSet
 
 . ./generateReplSetConf.sh
 
-replSetName=kirk_rs1_dev
+replSetName=kirk_rs2_dev
 
-for i in $(seq 1 3); do
+for i in $(seq 4 6); do
     echo $i
     mkdir -p /data/replSet/mongo${i}
     confPath=/data/conf/mongodReplSet${i}.conf
@@ -21,14 +21,25 @@ for i in $(seq 1 3); do
 done
 
 cat << EOF
-mongo 127.0.0.1:28001
+mongo 127.0.0.1:28004
 # 在mongo shell中，执行以下代码：
 rs.initiate({
   _id: '$replSetName',
   members: [
-    {_id: 0, host: '127.0.0.1:28001'},
-    {_id: 1, host: '127.0.0.1:28002'},
-    {_id: 2, host: '127.0.0.1:28003'},
+    {_id: 0, host: '127.0.0.1:28004'},
+    {_id: 1, host: '127.0.0.1:28005'},
+    {_id: 2, host: '127.0.0.1:28006'},
+  ],
+});
+
+# 更新配置，在PRIMARY上执行
+rs.reconfig({
+  force: true,
+  _id: '$replSetName',
+  members: [
+    {_id: 0, host: '127.0.0.1:28004'},
+    {_id: 1, host: '127.0.0.1:28005'},
+    {_id: 2, host: '127.0.0.1:28006'},
   ],
 });
 EOF

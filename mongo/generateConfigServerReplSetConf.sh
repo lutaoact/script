@@ -10,34 +10,31 @@ function generate() {
     if [ -z "$1" ]; then
         exit 1
     fi
-    if [ -z "$2" ]; then
-        exit 2
-    fi
-
+#    confPath=/tmp/replSet${1}.conf
     cat << EOF
 storage:
-  dbPath: /data/replSet/mongo${1}
+  dbPath: /data/configdb/mongo${1}
   journal:
     enabled: true
   engine: wiredTiger
 
 systemLog:
   destination: file
-  path: /data/log/mongod${1}.log
+  path: /data/log/mongodConfigServer${1}.log
   logAppend: true
 
 net:
-  port: 2800${1}
+  port: 2900${1}
   bindIp: 127.0.0.1
 
 processManagement:
   fork: true
-  pidFilePath: /data/tmp/mongod${1}.pid
+  pidFilePath: /data/tmp/mongodConfigServer${1}.pid
 
 replication:
-  replSetName: ${2}
+  replSetName: configServerReplSet
 
 sharding:
-  clusterRole: shardsvr
+  clusterRole: configsvr
 EOF
 }
