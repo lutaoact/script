@@ -6,28 +6,18 @@ set -o nounset
 # 有任何命令的执行返回码非0，则退出bash，也可以用set -e
 set -o errexit
 
-confPath=/data/conf/mongos.conf
+cd /data/conf
 
-cat > $confPath <<EOF
-systemLog:
-  destination: file
-  path: /data/log/mongos.log
-  logAppend: true
+# 启动两个不同的复制集，各3台服务器
+for i in $(seq 1 6); do (mongod --config mongodReplSet${i}.conf &); done
 
-net:
-  port: 30001
-  bindIp: 127.0.0.1
+# 启动configdb复制集
+for i in $(seq 1 3); do (mongod --config mongodConfigServerReplSet${i}.conf &); done
 
-processManagement:
-  fork: true
-  pidFilePath: /data/tmp/mongos.pid
+# 启动mongos
+mongos --config mongos.conf
 
-sharding:
-  configDB: configServerReplSet/127.0.0.1:29001,127.0.0.1:29002,127.0.0.1:29003
-EOF
-
-mongos --config $confPath
-
+# 打出mongos的一些命令
 cat << EOF
 mongo 127.0.0.1:30001/admin
 # 在mongo shell中，执行以下代码：
