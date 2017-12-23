@@ -1,0 +1,2 @@
+#!/bin/bash -xv
+ps axo 'user,pid,command' | grep "make/release/$1" | grep -v 'grep' | awk '{print $2}' | xargs kill

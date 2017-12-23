@@ -1,8 +1,21 @@
 #!/bin/bash -xv
 
-fswatch --exclude 'make' --exclude '\.git' -or ./$1 | xargs -n1 ~/bin/findMakeThenKill $1 &
+DIR=""
+echo $DIR
+
+if [ "$1" == "hub" ]; then
+    DIR=~/qbox/stark
+elif [ "$1" == "account" ]; then
+    DIR=~/qbox/keystone
+else
+    exit 1
+fi
+
+cd $DIR
+
+fswatch --exclude 'make' --exclude '\.git' --exclude 'account/store/ddl' -or ./ | xargs -n1 ~/bin/findThenKill $1 &
 
 while true
 do
-  make run_local_$1
+  $1
 done
