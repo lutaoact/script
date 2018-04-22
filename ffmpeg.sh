@@ -51,6 +51,8 @@ ffmpeg -i input.mp4 -i image.png \
 output.mp4
 
 ffmpeg -t 00:00:05 -i sxc_151563951045.mp4 sample.mp4
+ffmpeg -t 00:00:05 -i sxc_151444152211.mp4 input2.mp4
+ffmpeg -t 00:00:05 -i filter3.mp4 input3.mp4
 
 # 在指定位置上覆盖一张图片
 ffmpeg -i sxc_151563951045.mp4 -i image.jpg -filter_complex "[0:v][1:v] overlay=25:25" -pix_fmt yuv420p -c:a copy output.mp4
@@ -76,6 +78,12 @@ ffmpeg -i input.mp4 -i left_top.png -i right_top_365x275_2.png -i right_bottom_3
 
 # 右下角定稿 2018-04-21
 ffmpeg -i sxc_151563951045.mp4 -i left_top.png -i right_top_365x275_2.png -i right_bottom_362x62_2.png -i logo_middle.png -filter_complex "[0][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+# 处理 1240 * 696 定稿 2018-04-22
+ffmpeg -i input2.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i logo_middle.png -filter_complex "[0][1]overlay=0:-4[v1];[v1][2]overlay=879:0[v2];[v2][3]overlay=889:636[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+
+# 处理 1920 * 1080 定稿 2018-04-22
+ffmpeg -i input3.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i logo_middle.png -filter_complex "[0:v]scale=1280:-1[bg];[bg][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+ffmpeg -i filter3.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i logo_middle.png -filter_complex "[0:v]scale=1280:-1[bg];[bg][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
 
 # -map 的使用：https://trac.ffmpeg.org/wiki/Map
 
@@ -102,3 +110,11 @@ image%d.png
 ffmpeg -i input.mp4 -vf "yadif,format=rgb24,lutrgb=r='if(eq(val,38),35,val)':g='if(eq(val,38),35,val)':b='if(eq(val,38),35,val)'" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4
 ffmpeg -i input.mp4 -vf "format=rgb24,lutrgb=r='if(eq(val,38),255,val)':g='if(eq(val,38),255,val)':b='if(eq(val,38),255,val)'" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4
 ffmpeg -i input.mp4 -vf "format=rgb24,lutrgb=r='if(lt(val,39),255,val)':g='if(lt(val,39),255,val)':b='if(lt(val,39),255,val)'" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4
+
+# 探测尺寸
+ffprobe -hide_banner -v quiet -show_streams input.mp4 | grep -E '^(width|height)'
+size=$(ffprobe -hide_banner -v quiet -show_streams sxc_151444152211.mp4 | grep -E '^(width|height)')
+width=$(echo $size | awk '{print $1}' | cut -d= -f2)
+height=$(echo $size | awk '{print $2}' | cut -d= -f2)
+
+ffprobe -hide_banner -v quiet -show_streams filter3.mp4 | grep -E '^(width|height)'
