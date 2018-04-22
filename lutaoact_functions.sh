@@ -17,6 +17,17 @@ function tailmf() {
       awk '/^==> / {a=substr($0, 5, length-8); next}
                    {print a":"$0}'
 }
+
+function render() {
+  python render.py --template global --values cluster/$1/global.ini cluster/$1/global_s.ini --output .
+}
+
+function kevm() {
+  export KUBECONFIG=~/me/newevm_k8s_admin.conf
+  alias k='kubectl -n kube-system'
+}
+
+
 # tailmf /data/log/gpws.log /data/log/polipo.log
 # 用这条命令可以完成同样的功能
 # parallel --tagstring '{}:' --line-buffer tail -f {} ::: gpws.log polipo.log

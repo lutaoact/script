@@ -1,14 +1,33 @@
 #!/bin/bash
 
-function how_to_return() {
-  return 0;
+function test2() {
+    echo "test2"
+    if [ $# -eq 1 ]; then
+        echo 'one param'
+    else
+        echo 'no param'
+    fi
 }
 
-if how_to_return; then
-  echo ok
-else
-  echo not ok
-fi
+function test1() {
+    echo "test1"
+    if [ $# -eq 1 ]; then
+        echo 'one param'
+    fi
+    test2 "$1"
+}
+
+test1 ""
+
+#function how_to_return() {
+#  return 0;
+#}
+#
+#if how_to_return; then
+#  echo ok
+#else
+#  echo not ok
+#fi
 
 #for i in $(find /data/files -name '*.amr' -type f); do
 ##  node /home/ubuntu/scott/build/app/fixaudio.js "$i" "${i/.amr/.mp3}"

@@ -37,10 +37,7 @@ EOF
 sed -i.bak '/PermitRootLogin/c PermitRootLogin no' /etc/ssh/sshd_config
 service sshd restart
 
-mkdir -p /data
-mkdir -p /data/log
-mkdir -p /data/backup
-mkdir -p /data/redis
+mkdir -p /data/log /data/backup /data/tmp /data/redis
 
 chown -R centos:centos /data
 

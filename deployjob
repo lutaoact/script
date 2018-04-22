@@ -30,10 +30,23 @@ kubectl create -f hook/hook.deploy.yaml
 
 stark-hms stark-hub stark-sites
 
-for i in stark-hms stark-hub stark-sites; do
+# 发布
+cd ~/ke-deploy/kirk-deploy/generate/
+
+for i in stark-redis stark-hub stark-sites; do
     cd $i
     for j in *; do
-        kubectl apply -f $j
+        #kubectl apply -f $j
+        echo $j
+    done
+    cd ..
+done
+
+for i in stark-hub stark-sites; do
+    cd $i
+    for j in *; do
+        #kubectl apply -f $j
+        #echo $j
     done
     cd ..
 done

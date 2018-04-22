@@ -36,7 +36,6 @@ sh.addShard("kirk_rs2_dev/127.0.0.1:28004,127.0.0.1:28005,127.0.0.1:28006")
 
 sh.enableSharding( "hms" )
 
-
 use hms;
 // shard key必须要有索引
 db.testColl.createIndex({_id: 1})

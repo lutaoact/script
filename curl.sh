@@ -1,25 +1,9 @@
-data='{"namespace":"library","name":"nginx","logoUrl":"","summary":"this is a longgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg summary","description":"nginx is great and great and great.","origin":"docker","labels":["database","server"],"tags":["1.0","1.1"],"codeSource":"github","isPub":true,"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","deletedAt":"0001-01-01T00:00:00Z"}'
-data='{"namespace":"library","name":"nginx","logoUrl":"","summary":"this is a short summary","description":"nginx is great and great and great.","origin":"docker","labels":["database","server"],"tags":["1.0","1.1"],"codeSource":"github","isPub":true,"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","deletedAt":"0001-01-01T00:00:00Z"}'
 
-# 没有origin字段，测试自动添加
-data='{"namespace":"library","name":"nginx","logoUrl":"","summary":"this is a short summary","description":"nginx is great and great and great.","labels":["web","server"],"tags":["1.0","1.1"],"codeSource":"github","isPub":true}'
-data='{"namespace":"lutaoact","name":"nginx","logoUrl":"","summary":"this is a short summary","description":"nginx is great and great and great.","labels":["web","server"],"tags":["1.0","1.1"],"codeSource":"github","isPub":true}'
+curl -v -d "id=ak:ZgraDo7E1x5ngVQQZFI_2CrcKTDnGNeMS8HDctYT" -H 'Content-Type: application/x-www-form-urlencoded' 'https://app-api.qiniu.com/getb'
+curl -v -d "id=ak:PRJIEOiH8DVggJarPkH0RjLp5NATLjmNtFB8NC8H" -H 'Content-Type: application/x-www-form-urlencoded' 'http://app-api.cs.qiniu.io/getb'
 
-# repo
-curl -v 'http://127.0.0.1:8086/v1/hub/namespaces/library/repos/nginx'
+curl -v 'http://10.34.35.42:23200/getByAccess?key=ZgraDo7E1x5ngVQQZFI_2CrcKTDnGNeMS8HDctYT'
+curl -v 'http://10.200.20.23:23200/getByAccess?key=PRJIEOiH8DVggJarPkH0RjLp5NATLjmNtFB8NC8H'
 
-curl -v -H "Content-Type: application/json" -d "$data" 'http://localhost:8086/v1/hub/namespaces/library/repos'
-curl -v -H "Content-Type: application/json" -d "$data" 'http://localhost:8086/v1/hub/namespaces/lutaoact/repos'
-curl -v -H "Content-Type: application/json" -d "$data" 'http://localhost:8087/v1/hms/namespaces/library/repos'
+curl -v 'http://10.200.20.23:23200/getByAccess?key=WExt3jnts6oUP2hZIvLMDRCgpbpaqVbsE4GFN1kp'
 
-# 不合法数据
-illegalData='{"namespace":"library","name":"nginx..2","logoUrl":"","summary":"this is a short summary","description":"nginx is great and great and great.","origin":"docker","labels":["database","server"],"tags":["1.0","1.1"],"codeSource":"github","isPub":true,"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","deletedAt":"0001-01-01T00:00:00Z"}'
-curl -v -H "Content-Type: application/json" -d "$illegalData" 'http://localhost:8086/v1/hub/namespaces/library/repos'
-
-# image
-curl 'http://localhost:8087/v1/hms/namespaces/library/repos/nginx/tags'
-curl 'http://localhost:8086/v1/hub/namespaces/library/repos/nginx/tags'
-
-# 收藏
-curl -v -X POST 'http://localhost:8087/v1/hms/namespaces/library/repos/nginx/star?star=2'
-curl -v -X POST 'http://localhost:8086/v1/hub/namespaces/library/repos/nginx/star?star=2'
