@@ -54,15 +54,7 @@ ffmpeg -t 00:00:05 -i sxc_151563951045.mp4 sample.mp4
 
 # 在指定位置上覆盖一张图片
 ffmpeg -i sxc_151563951045.mp4 -i image.jpg -filter_complex "[0:v][1:v] overlay=25:25" -pix_fmt yuv420p -c:a copy output.mp4
-ffmpeg -i sxc_151563951045.mp4 -i image_120x120.jpg -filter_complex "[0:v][1:v] overlay=30:20" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4
-ffmpeg -i input.mp4 -i logo_120x120.png -filter_complex "[0:v][1:v] overlay=30:20" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4
-ffmpeg -i input.mp4 -i logo2.png -filter_complex "[0:v][1:v] overlay=30:20" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4
-ffmpeg -i input.mp4 -i logo_156x164.png -filter_complex "[0:v][1:v] overlay=30:20" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4
-ffmpeg -i input.mp4 -i logo_156x164.png -filter_complex "[0:v][1:v] overlay=20:8" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4
-ffmpeg -i input.mp4 -i logo_156x164.png -filter_complex "[0:v][1:v] overlay=20:7" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4
-ffmpeg -i input.mp4 -i logo_156x164.png -filter_complex "[0:v][1:v] overlay=15:7" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4
 ffmpeg -i input.mp4 -i logo_156x164.png -filter_complex "[0:v][1:v] overlay=10:7" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4
-
 
 ffmpeg -i input.mp4 -i circle3.png -filter_complex "[0:v][1:v] overlay=10:7" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4
 ffmpeg -i input.mp4 -i left_top.png -filter_complex "[0:v][1:v] overlay=0:0" -pix_fmt yuv420p -c:a copy output$(date +%H%M%S).mp4 #左上角定稿
@@ -74,7 +66,18 @@ ffmpeg -i sxc_151563951045.mp4 -i left_top.png -i right_top_365x275.png -filter_
 
 ffmpeg -i input.mp4 -i left_top.png -i right_top_365x275.png -i right_bottom_362x62.png -filter_complex "[0][1]overlay=0:0[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3]" -map "[v3]" -map 0:a -pix_fmt yuv420p output$(date +%H%M%S).mp4
 ffmpeg -i sxc_151563951045.mp4 -i left_top.png -i right_top_365x275.png -i right_bottom_362x62.png -filter_complex "[0][1]overlay=0:0[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3]" -map "[v3]" -map 0:a -pix_fmt yuv420p output$(date +%H%M%S).mp4
-ffmpeg -i input.mp4 -i left_top.png -i right_top_365x275_2.png -i right_bottom_362x62_2.png -filter_complex "[0][1]overlay=0:0[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3]" -map "[v3]" -map 0:a -pix_fmt yuv420p output$(date +%Y%m%d%H%M%S).mp4 # 右下角定稿
+ffmpeg -i input.mp4 -i left_top.png -i right_top_365x275_2.png -i right_bottom_362x62_2.png -filter_complex "[0][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3]" -map "[v3]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M%S).mp4 # 右下角定稿
+ffmpeg -i sxc_151563951045.mp4 -i left_top.png -i right_top_365x275_2.png -i right_bottom_362x62_2.png -filter_complex "[0][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3]" -map "[v3]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4 # 右下角定稿
+# When encoding is finished -movflags +faststart will relocate some data to the beginning of the file. This is useful, for example, if you are outputting to MP4 and your viewers will watch via progressive download such as from a browser.
+# https://superuser.com/questions/848605/ffmpeg-video-from-single-image-with-multiple-video-overlays
+
+# 右下角定稿 2018-04-21
+ffmpeg -i input.mp4 -i left_top.png -i right_top_365x275_2.png -i right_bottom_362x62_2.png -i logo_middle.png -filter_complex "[0][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+
+# 右下角定稿 2018-04-21
+ffmpeg -i sxc_151563951045.mp4 -i left_top.png -i right_top_365x275_2.png -i right_bottom_362x62_2.png -i logo_middle.png -filter_complex "[0][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+
+# -map 的使用：https://trac.ffmpeg.org/wiki/Map
 
 # 颜色 383838(262626) 变成353535(232323)
 ffmpeg -loop 1 -t 24 -i "image.jpg" -filter_complex "color=000000:s=640x360[bg];[bg][0]overlay=shortest=1:y='min(0,-(t)*26)'" -qscale 1 -y out.mpg
