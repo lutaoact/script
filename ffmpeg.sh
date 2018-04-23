@@ -50,9 +50,7 @@ ffmpeg -i input.mp4 -i image.png \
 -pix_fmt yuv420p -c:a copy \
 output.mp4
 
-ffmpeg -t 00:00:05 -i sxc_151563951045.mp4 sample.mp4
-ffmpeg -t 00:00:05 -i sxc_151444152211.mp4 input2.mp4
-ffmpeg -t 00:00:05 -i filter3.mp4 input3.mp4
+ffmpeg -t 00:00:05 -i input1536.mp4 filter1536.mp4
 
 # 在指定位置上覆盖一张图片
 ffmpeg -i sxc_151563951045.mp4 -i image.jpg -filter_complex "[0:v][1:v] overlay=25:25" -pix_fmt yuv420p -c:a copy output.mp4
@@ -84,6 +82,18 @@ ffmpeg -i input2.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i log
 # 处理 1920 * 1080 定稿 2018-04-22
 ffmpeg -i input3.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i logo_middle.png -filter_complex "[0:v]scale=1280:-1[bg];[bg][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
 ffmpeg -i filter3.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i logo_middle.png -filter_complex "[0:v]scale=1280:-1[bg];[bg][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+
+# 处理 1368 * 768 定稿 2018-04-23
+ffmpeg -i filter1368.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i logo_middle.png -filter_complex "[0:v]scale=1280:720[bg];[bg][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+ffmpeg -i input1368.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i logo_middle.png -filter_complex "[0:v]scale=1280:720[bg];[bg][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+
+# 处理 1536*864 定稿 2018-04-23
+ffmpeg -i filter1536.mp4 -filter_complex "[0:v]crop=1512:850:0:0[bg]" -map "[bg]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+ffmpeg -i filter1536.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i logo_middle.png -filter_complex "[0:v]crop=1420:790:10:48[bg1];[bg1]scale=1280:720[bg2];[bg2][1]overlay=0:-29[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+ffmpeg -i input1536.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i logo_middle.png -filter_complex "[0:v]crop=1420:790:10:48[bg1];[bg1]scale=1280:720[bg2];[bg2][1]overlay=0:-29[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+
+# crop filter 截取视频
+# https://video.stackexchange.com/questions/4563/how-can-i-crop-a-video-with-ffmpeg
 
 # 定位覆盖图片似乎可以用这种方法，看起来非常不错
 ffmpeg -i input.mp4 -i logo.png -filter_complex "[0:v]scale=512:-1[bg];[bg][1:v]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2" output
