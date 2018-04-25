@@ -95,6 +95,12 @@ ffmpeg -i input1536.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i 
 # crop filter 截取视频
 # https://video.stackexchange.com/questions/4563/how-can-i-crop-a-video-with-ffmpeg
 
+# 1364x768 2018-04-24
+ffmpeg -t 00:00:05 -i input1364.mp4 filter1364.mp4
+ffmpeg -i filter1364.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i logo_middle.png -filter_complex "[0:v]scale=1280:720[bg];[bg][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+ffmpeg -i input1364.mp4 -i left_top.png -i right_top.png -i right_bottom.png -i logo_middle.png -filter_complex "[0:v]scale=1280:720[bg];[bg][1]overlay=0:-4[v1];[v1][2]overlay=919:0[v2];[v2][3]overlay=929:660[v3];[v3][4]overlay=310:130[v4]" -map "[v4]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+
+
 # 定位覆盖图片似乎可以用这种方法，看起来非常不错
 ffmpeg -i input.mp4 -i logo.png -filter_complex "[0:v]scale=512:-1[bg];[bg][1:v]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2" output
 # https://stackoverflow.com/questions/10934420/ffmpeg-how-to-scale-a-video-then-apply-a-watermark
