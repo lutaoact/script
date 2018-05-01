@@ -1,4 +1,4 @@
-cat <<HERE > /etc/apt/source.list
+cat <<HERE > /etc/apt/sources.list
 deb http://mirrors.aliyun.com/ubuntu/ $(lsb_release -cs) main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ $(lsb_release -cs)-security main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ $(lsb_release -cs)-updates main restricted universe multiverse
