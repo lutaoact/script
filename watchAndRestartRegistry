@@ -1,0 +1,15 @@
+#!/bin/bash -xv
+
+#set -e #不能加这句，否则一旦出现异常，整个程序就挂了，我们后面xargs是去kill程序的，那么必然会出现异常
+
+cd ~/distribution
+
+fswatch -or registry/storage/driver/ | xargs -n1 ~/bin/restartRegistry &
+
+cd cmd/registry
+
+while true
+do
+  startRegistry
+  sleep 1
+done
