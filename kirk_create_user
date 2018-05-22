@@ -1,0 +1,38 @@
+#!/bin/bash -xv
+
+set -e
+
+# 本脚本适用于ubuntu系统
+if [ -z "$1" ]; then
+  echo "Usage: kirk_create_user [username]"
+  exit 1
+fi
+
+username="$1"
+
+# 使用root用户操作
+useradd -m -s /bin/bash "$username"
+echo "$username":goodluck | /usr/sbin/chpasswd
+
+# 将home目录移动到那个大硬盘
+mv /home/"$username" /data/home/
+ln -s /data/home/"$username" /home/
+
+# 加入到 sudo 组中，使 ubuntu 用户拥有 sudo 权限
+usermod -aG sudo "$username"
+
+set +e
+
+# read的退出码为1，是不是很惊喜啊，所以set -e会直接退出整个程序
+# 关闭使用set +e
+
+read -r -d '' CMD <<'HERE'
+mkdir .ssh && chmod 700 .ssh
+touch .ssh/authorized_keys && chmod 600 .ssh/authorized_keys
+
+wget 'https://raw.githubusercontent.com/lutaoact/some_config/master/vimrc' -O ~/.vimrc
+HERE
+
+set -e
+
+su -l "$username" -c "$CMD"
