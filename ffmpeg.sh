@@ -37,6 +37,12 @@ ffmpeg -i input.mp4 -i image.png \
 -pix_fmt yuv420p -c:a copy \
 output.mp4
 
+# 切出小段视频 -t指定秒数
+ffmpeg -t 12 -i sxc_146952623220.mp4 12s$(date +%m%d%H%M).mp4
+
+# 处理未处理妥当的视频，只覆盖右上角
+ffmpeg -hide_banner -loglevel panic -y -i 5s05051105.mp4 -i right_top.png -filter_complex "[1]scale=335:255[s1];[0][s1]overlay=946:-1[v2]" -map "[v2]" -map 0:a -pix_fmt yuv420p -movflags +faststart output$(date +%m%d%H%M).mp4
+
 # When encoding is finished -movflags +faststart will relocate some data to the beginning of the file. This is useful, for example, if you are outputting to MP4 and your viewers will watch via progressive download such as from a browser.
 # https://superuser.com/questions/848605/ffmpeg-video-from-single-image-with-multiple-video-overlays
 
@@ -54,6 +60,10 @@ ffmpeg -i logo_middle_95.png -filter_complex "[0]scale=382:300[s0]" -map "[s0]" 
 ffmpeg -ss 00:00:4 -i sxc_150945796413_1352.mp4 -vframes 1 -filter:v "scale=1280:720" -q:v 2 -pix_fmt yuvj420p output$(date +%m%d%H%M).jpg
 ffmpeg -ss 10 -i sxc_147506207636.mp4 -vframes 1 -filter:v "scale=1280:720" -q:v 2 -pix_fmt yuvj420p output$(date +%m%d%H%M).jpg
 ffmpeg -ss 10 -i sxc_150167870155.mp4 -vframes 1 -filter_complex "[0]crop=1424:720:0:40,scale=1280:720,setsar=1" -q:v 2 -pix_fmt yuvj420p 155.jpg
+ffmpeg -ss 10 -i sxc_146829584623.mp4 -vframes 1 -filter:v "scale=1280:720" -q:v 2 -pix_fmt yuvj420p output$(date +%m%d%H%M).jpg
+ffmpeg -ss 10 -i sxc_147406889950.mp4 -vframes 1 -filter:v "scale=1280:720" -q:v 2 -pix_fmt yuvj420p output$(date +%m%d%H%M).jpg
+ffmpeg -ss 10 -i sxc_148236441731.mp4 -vframes 1 -filter:v "scale=1280:720" -q:v 2 -pix_fmt yuvj420p output$(date +%m%d%H%M).jpg
+
 
 # 从视频中截取出一张图
 # https://stackoverflow.com/questions/27568254/how-to-extract-1-screenshot-for-a-video-with-ffmpeg-at-a-given-time
