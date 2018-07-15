@@ -4,9 +4,9 @@ DIR=""
 echo $DIR
 
 if [ "$1" == "hub" ]; then
-    DIR=~/qbox/stark
+    DIR=~/qiniu/stark
 elif [ "$1" == "account" ]; then
-    DIR=~/qbox/keystone
+    DIR=~/qiniu/keystone
 else
     exit 1
 fi
