@@ -1,0 +1,5 @@
+#!/bin/bash -xv
+
+for i in $(k get po --selector=name=ke-keystone-app -o jsonpath='{.items[*].metadata.name}'); do
+  k exec -it "$i" -- bash -c 'ls -lh /var/log/keystone/keystone.log && :> /var/log/keystone/keystone.log && ls -lh /var/log/keystone/keystone.log'
+done
