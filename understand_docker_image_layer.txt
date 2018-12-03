@@ -1,0 +1,95 @@
+$ docker push 127.0.0.1:5000/lutaoact2/hello-world:3
+The push refers to repository [127.0.0.1:5000/lutaoact2/hello-world]
+41594f20c97a: Pushed
+09a0a0334de2: Pushed
+828d7d42b5eb: Pushed
+3ff70ce53dac: Pushed
+b8e5935ae7cc: Pushed
+ba76b502dc9b: Pushed
+803030df23c1: Pushed
+db8686e0ca43: Pushed
+3: digest: sha256:a279d553700ce1036140e6a84985e32a571a2b6981f4d969d733ba07e99378aa size: 1990
+
+$ docker pull 127.0.0.1:5000/lutaoact2/hello-world:3
+3: Pulling from lutaoact2/hello-world
+c2ca09a1934b: Already exists
+d6c3619d2153: Already exists
+0efe07335a04: Already exists
+6b1bb01b3a3b: Already exists
+43a98c187399: Already exists
+b12bc4d7b003: Pull complete
+0b974f43e004: Pull complete
+bcfd22b344a5: Pull complete
+Digest: sha256:a279d553700ce1036140e6a84985e32a571a2b6981f4d969d733ba07e99378aa
+Status: Downloaded newer image for 127.0.0.1:5000/lutaoact2/hello-world:3
+
+$ docker push 127.0.0.1:5000/lutaoact2/hello-world:2
+The push refers to repository [127.0.0.1:5000/lutaoact2/hello-world]
+2b8cbd0846c5: Layer already exists
+2: digest: sha256:d5c74e6f8efc7bdf42a5e22bd764400692cf82360d86b8c587a7584b03f51520 size: 524
+
+# manifest文件
+$ cat blobs/sha256/a2/a279d553700ce1036140e6a84985e32a571a2b6981f4d969d733ba07e99378aa/data
+{
+   "schemaVersion": 2,
+   "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+   "config": {
+      "mediaType": "application/vnd.docker.container.image.v1+json",
+      "size": 4269,
+      "digest": "sha256:bd6184ebc32b39191b5903ed0ed9aedfb822c0ea51f3c179a732955f0a8ebc86" #这是image config文件
+   },
+   "layers": [
+      {
+         "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+         "size": 38640200,
+         "digest": "sha256:c2ca09a1934b951505ecc4d6b2e4ab7f9bf27bcdfb8999d0181deca74daf7683" => db8686e0ca43
+      },
+      {
+         "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+         "size": 847,
+         "digest": "sha256:d6c3619d2153ffdefa4a9c19f15c5d566ce271b397a84537baa9ee45b24178f2" => 803030df23c1
+      },
+      {
+         "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+         "size": 570,
+         "digest": "sha256:0efe07335a049e6afcd757db2d17ba37a12b717eb807acb03ddf3cd756b9fc2a" => ba76b502dc9b
+      },
+      {
+         "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+         "size": 854,
+         "digest": "sha256:6b1bb01b3a3b72463ae8ac5666d57b28f1a21d5256271910ac8df841aa04ecd1" => b8e5935ae7cc
+      },
+      {
+         "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+         "size": 163,
+         "digest": "sha256:43a98c1873995475a895f3d79f405232ef5230076b3f610c949c2e8341743af7" => 3ff70ce53dac
+      },
+      {
+         "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+         "size": 1049044,
+         "digest": "sha256:b12bc4d7b003a15071a4330c6ab4897ff3b82fce1f2417d0a21d68b3adc14e90" => 828d7d42b5eb
+      },
+      {
+         "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+         "size": 2097940,
+         "digest": "sha256:0b974f43e0046dce5a3fdd6d1baaad6a232a59599d0e8fb7f2a6de11af0c6f43" => 09a0a0334de2
+      },
+      {
+         "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+         "size": 3146833,
+         "digest": "sha256:bcfd22b344a5aec3b836f7241e052cd81521819ca5323627091194e8ae496027" => 41594f20c97a
+      }
+   ]
+}
+
+$ docker history 127.0.0.1:5000/lutaoact2/hello-world:3
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+bd6184ebc32b        28 minutes ago      /bin/sh -c #(nop) ADD file:9e13a96b3ee78efef…   3.15MB
+4047b3a4e20e        29 minutes ago      /bin/sh -c #(nop) ADD file:f6523bf63234d9c45…   2.1MB
+f40e898c4e7e        29 minutes ago      /bin/sh -c #(nop) ADD file:203818061127b6e1b…   1.05MB
+fe1cc5b91830        9 months ago        /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B
+<missing>           9 months ago        /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B
+<missing>           9 months ago        /bin/sh -c sed -i 's/^#\s*\(deb.*universe\)$…   2.74kB
+<missing>           9 months ago        /bin/sh -c rm -rf /var/lib/apt/lists/*          0B
+<missing>           9 months ago        /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   745B
+<missing>           9 months ago        /bin/sh -c #(nop) ADD file:796db5dd87a82ef34…   95.6MB
