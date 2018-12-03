@@ -1,4 +1,4 @@
-$ docker push 127.0.0.1:5000/lutaoact2/hello-world:3
+$ docker push 127.0.0.1:5000/lutaoact2/hello-world:3 #push的时候显示的是diff_id，最新的层在最上面
 The push refers to repository [127.0.0.1:5000/lutaoact2/hello-world]
 41594f20c97a: Pushed
 09a0a0334de2: Pushed
@@ -10,7 +10,7 @@ ba76b502dc9b: Pushed
 db8686e0ca43: Pushed
 3: digest: sha256:a279d553700ce1036140e6a84985e32a571a2b6981f4d969d733ba07e99378aa size: 1990
 
-$ docker pull 127.0.0.1:5000/lutaoact2/hello-world:3
+$ docker pull 127.0.0.1:5000/lutaoact2/hello-world:3 #pull的时候显示的是digest，最新的层在最下面
 3: Pulling from lutaoact2/hello-world
 c2ca09a1934b: Already exists
 d6c3619d2153: Already exists
@@ -36,9 +36,9 @@ $ cat blobs/sha256/a2/a279d553700ce1036140e6a84985e32a571a2b6981f4d969d733ba07e9
    "config": {
       "mediaType": "application/vnd.docker.container.image.v1+json",
       "size": 4269,
-      "digest": "sha256:bd6184ebc32b39191b5903ed0ed9aedfb822c0ea51f3c179a732955f0a8ebc86" #这是image config文件
+      "digest": "sha256:bd6184ebc32b39191b5903ed0ed9aedfb822c0ea51f3c179a732955f0a8ebc86" #这是image config文件，也就是docker images列表中显示的镜像hash
    },
-   "layers": [
+   "layers": [ #镜像层的digest，这些digest就是registry的blobs目录下文件的名称，这些文件就是经压缩后的实际数据层
       {
          "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
          "size": 38640200,
@@ -82,7 +82,7 @@ $ cat blobs/sha256/a2/a279d553700ce1036140e6a84985e32a571a2b6981f4d969d733ba07e9
    ]
 }
 
-$ docker history 127.0.0.1:5000/lutaoact2/hello-world:3
+$ docker history 127.0.0.1:5000/lutaoact2/hello-world:3 #history中image hash都对应一个image config文件，这个文件的内容就是docker inspect显示的文件内容
 IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
 bd6184ebc32b        28 minutes ago      /bin/sh -c #(nop) ADD file:9e13a96b3ee78efef…   3.15MB
 4047b3a4e20e        29 minutes ago      /bin/sh -c #(nop) ADD file:f6523bf63234d9c45…   2.1MB
