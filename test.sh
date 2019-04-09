@@ -17,7 +17,14 @@ function test1() {
     test2 "$1"
 }
 
-test1 ""
+a=100
+b=110
+
+if [ "$(($a * $b))" -lt 10000 ]; then
+  echo 0
+else
+  echo not 0
+fi
 
 #function how_to_return() {
 #  return 0;

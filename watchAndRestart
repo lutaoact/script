@@ -1,19 +1,22 @@
 #!/bin/bash -xv
 
 DIR=""
-echo $DIR
 
 if [ "$1" == "hub" ]; then
     DIR=~/qiniu/stark
 elif [ "$1" == "account" ]; then
     DIR=~/qiniu/keystone
+elif [ "$1" == "authgate" ]; then
+    DIR=~/qiniu/ke
+elif [ "$1" == "qce" ]; then
+    DIR=~/qiniu/qce
 else
     exit 1
 fi
 
 cd $DIR
 
-fswatch --exclude 'make' --exclude '\.git' --exclude 'account/store/ddl' -or ./ | xargs -n1 ~/bin/findThenKill $1 &
+fswatch --exclude 'models' --exclude 'docs' --exclude 'client' --exclude 'make' --exclude '\.git' --exclude 'account/store/ddl' -or ./ | xargs -n1 ~/bin/findThenKill $1 &
 
 while true
 do
