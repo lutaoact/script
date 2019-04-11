@@ -1,0 +1,6 @@
+str="877 0 383 287"
+IFS=" " read -r -a array <<< "$str"
+echo "${array[0]}"
+echo "${array[1]}"
+echo "${array[2]}"
+echo "${array[3]}"

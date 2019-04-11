@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+github_url="$1"
+
+if [ ! -d ~/.vim ]; then
+  echo "~/.vim should exists"
+  exit 1
+fi
+
+dir=$(basename "$github_url")
+echo "cloning code into /tmp directory..."
+cd /tmp && git clone "$github_url.git"
+cd "$dir" && tar cvfz - * | tar xvfz - -C ~/.vim
