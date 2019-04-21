@@ -1,0 +1,15 @@
+#!/bin/bash
+
+awk '/\+$/{
+  num=substr($0, 1, length($0)-1); #把尾部的加号去掉
+  gsub(",", "", num); #替换掉数字中的逗号
+  next; #跳过当前行，继续处理
+}{
+  if ($0 == "9759" && num != 0) {
+    print num
+    sum += num * 100;
+  }
+  num = 0; #输出之后需要置空
+}END{
+  printf "%d %d.%02d\n", sum, int(sum / 100), sum % 100;
+}' /data/backup/shangyin.txt
