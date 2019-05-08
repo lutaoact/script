@@ -8,7 +8,7 @@ fi
 
 base_url="https://github.com"
 
-for i in (ctrlpvim/ctrlp.vim fatih/vim-go terryma/vim-multiple-cursors tpope/vim-surround wellle/targets.vim isRuslan/vim-es6 SirVer/ultisnips); do
+for i in (ctrlpvim/ctrlp.vim fatih/vim-go terryma/vim-multiple-cursors tpope/vim-surround wellle/targets.vim isRuslan/vim-es6 SirVer/ultisnips google/vim-jsonnet); do
   install_vim_plugin "$base_url/$i"
 done
 
