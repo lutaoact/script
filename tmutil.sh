@@ -16,3 +16,5 @@ done
 
 sudo tmutil delete /Volumes/TT/Backups.backupdb/tao.lu01/2018-08-26-110250
 sudo tmutil delete /Volumes/TT/Backups.backupdb/tao.lu01/2018-08-07-143413
+
+tmutil addexclusion /System /Applications /Library /bin /private /sbin /usr ~/Library ~/Documents ~/Desktop ~/Downloads ~/Music ~/Movies ~/Pictures ~/go ~/Applications*
