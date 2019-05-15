@@ -6,3 +6,13 @@ for i in 2017-12-22-101445 2018-01-04-181355 2018-02-09-111742 2018-02-23-103140
   echo $(date) delete $i done
   sleep 3
 done
+
+for i in 2018-06-04-164351; do
+  echo $(date) delete $i start
+  sudo tmutil delete /Volumes/TT/Backups.backupdb/tao.lu01/$i
+  echo $(date) delete $i done
+  sleep 3
+done
+
+sudo tmutil delete /Volumes/TT/Backups.backupdb/tao.lu01/2018-08-26-110250
+sudo tmutil delete /Volumes/TT/Backups.backupdb/tao.lu01/2018-08-07-143413
