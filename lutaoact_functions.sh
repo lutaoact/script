@@ -1,6 +1,5 @@
 #!/bin/bash -xv
 
-
 #alias ls='ls -G' #for BSD ls
 #alias ll="ls -alFG" #for BSD ls
 
@@ -12,25 +11,58 @@ alias redis-cli='redis-cli --raw' #让redis-cli正常显示中文
 
 function cd() { builtin cd "$@" && ls; }
 
-function tailmf() {
-  tail -f "$@" |
-      awk '/^==> / {a=substr($0, 5, length-8); next}
-                   {print a":"$0}'
+russellauth() {
+  while true; do
+    deploy=$(kubectl -n backend get deploy --selector=comp-name=russell-rpc-auth -o jsonpath='{.items[*].metadata.name}')
+    if [ -z "$deploy" ]; then
+      echo "cannot find deploy"
+      return 1
+    fi
+    kubectl -n backend port-forward deployment/"$deploy" 8080
+  done
 }
 
-function render() {
-  python render.py --template global --values cluster/$1/global.ini cluster/$1/global_s.ini --output .
+russelluser() {
+  while true; do
+    deploy=$(kubectl -n backend get deploy --selector=comp-name=russell-rpc-user -o jsonpath='{.items[*].metadata.name}')
+    if [ -z "$deploy" ]; then
+      echo "cannot find deploy"
+      return 1
+    fi
+    kubectl -n backend port-forward deployment/"$deploy" 8081:8080
+  done
 }
 
-function kevm() {
-  export KUBECONFIG=~/me/newevm_k8s_admin.conf
-  alias k='kubectl -n kube-system'
+cooper() {
+  while true; do
+    deploy=$(kubectl -n backend get deploy --selector=comp-name=cooper-grpc-lb -o jsonpath='{.items[*].metadata.name}')
+    if [ -z "$deploy" ]; then
+      echo "cannot find deploy"
+      return 1
+    fi
+    kubectl -n backend port-forward deployment/"$deploy" 8082:8080
+  done
 }
 
-
+#function tailmf() {
+#  tail -f "$@" |
+#      awk '/^==> / {a=substr($0, 5, length-8); next}
+#                   {print a":"$0}'
+#}
 # tailmf /data/log/gpws.log /data/log/polipo.log
 # 用这条命令可以完成同样的功能
 # parallel --tagstring '{}:' --line-buffer tail -f {} ::: gpws.log polipo.log
+
+#
+#function render() {
+#  python render.py --template global --values cluster/$1/global.ini cluster/$1/global_s.ini --output .
+#}
+#
+#function kevm() {
+#  export KUBECONFIG=~/me/newevm_k8s_admin.conf
+#  alias k='kubectl -n kube-system'
+#}
+#
 
 # function qyg() {
 #   qingcloud "$@" -f ~/private-config/qingcloud_config.yaml
