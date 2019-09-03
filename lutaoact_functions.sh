@@ -19,6 +19,7 @@ russellauth() {
       return 1
     fi
     kubectl -n backend port-forward deployment/"$deploy" 8080
+    sleep 3
   done
 }
 
@@ -30,6 +31,7 @@ russelluser() {
       return 1
     fi
     kubectl -n backend port-forward deployment/"$deploy" 8081:8080
+    sleep 3
   done
 }
 
@@ -41,7 +43,24 @@ cooper() {
       return 1
     fi
     kubectl -n backend port-forward deployment/"$deploy" 8082:8080
+    sleep 3
   done
+}
+
+telisruby() {
+  while true; do
+    kubectl -n backend port-forward deployment/telisruby 8083:80
+    sleep 3
+  done
+}
+
+klog() {
+  if [ -z "$1" ]; then
+    echo "Usage: klog [pod name]"
+    return 1
+  fi
+
+  kubectl -n backend logs --tail 1000 -f $(kubectl -n backend get po -lname="$1" -o jsonpath='{.items[*].metadata.name}')
 }
 
 #function tailmf() {
