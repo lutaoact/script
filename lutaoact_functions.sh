@@ -60,7 +60,12 @@ klog() {
     return 1
   fi
 
-  kubectl -n backend logs --tail 1000 -f $(kubectl -n backend get po -lname="$1" -o jsonpath='{.items[*].metadata.name}')
+  if [ "$1" = "telis" ]; then
+    kubectl -n algorithm logs --tail 1000 -f $(kubectl -n algorithm get po -lcomp-name=telis-telissrv-dev -o jsonpath='{.items[*].metadata.name}') -c comp
+    return 0
+  fi
+
+  kubectl -n backend logs --tail 1000 -f $(kubectl -n backend get po -lname="$1" -o jsonpath='{.items[*].metadata.name}') -c "$1"
 }
 
 #function tailmf() {
