@@ -1,0 +1,13 @@
+#!/usr/bin/expect -f
+
+log_file -noappend "/data/log/master1.log"
+
+set timeout 30
+
+spawn ssh root@10.10.51.11
+expect "password:"
+
+send "2018@Jstv!@#\r"
+
+#进入交互模式
+interact
